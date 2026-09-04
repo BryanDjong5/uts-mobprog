@@ -8,7 +8,7 @@ class ListClub extends StatefulWidget {
 }
 
 class _ListClubState extends State<ListClub> {
-  int jumlahClub = 0;
+  int ListClub = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class _ListClubState extends State<ListClub> {
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
 
-        children: List.generate(jumlahClub, (index) {
+        children: List.generate(ListClub, (index) {
           return Card(
             child: Center(
               child: Text(
@@ -40,7 +40,7 @@ class _ListClubState extends State<ListClub> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            jumlahClub++;
+            ListClub++;
           });
         },
         child: const Icon(Icons.add),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uts_mobprog/ListClub.dart';
+import 'package:uts_mobprog/daftarClub/ListClub.dart';
+import 'package:uts_mobprog/daftarClub/AddNewClub.dart';
 
 void main() {
   runApp(const Reclub());
