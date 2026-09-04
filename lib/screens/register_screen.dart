@@ -1,35 +1,52 @@
 import 'package:flutter/material.dart';
-import 'register_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.blue),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(24.0), 
+        padding: const EdgeInsets.all(24.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, 
-          crossAxisAlignment: CrossAxisAlignment.stretch, 
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
-              'ReClub',
+              'Daftar Akun',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 36,
+                fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: Colors.blue, 
+                color: Colors.blue,
               ),
             ),
-            const SizedBox(height: 40), 
+            const SizedBox(height: 30),
+            
+            //  Ini Untuk Kotak Nama Lengkap
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Nama Lengkap',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                prefixIcon: const Icon(Icons.person),
+              ),
+            ),
+            const SizedBox(height: 20),
 
+            // Ini Untuk Kotak Email
             TextField(
               decoration: InputDecoration(
                 labelText: 'Email',
@@ -39,22 +56,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 prefixIcon: const Icon(Icons.email),
               ),
             ),
-            const SizedBox(height: 20), 
+            const SizedBox(height: 20),
 
+            // Ini Untuk Kotak Password
             TextField(
-              obscureText: true, 
+              obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                prefixIcon: const Icon(Icons.lock), 
+                prefixIcon: const Icon(Icons.lock),
               ),
             ),
-            const SizedBox(height: 30), 
+            const SizedBox(height: 30),
 
+            // Ini Untuk Tombol Daftar
             ElevatedButton(
               onPressed: () {
+                // Aksi tombol daftar disini
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 15),
@@ -65,24 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               child: const Text(
-                'Masuk',
+                'Daftar',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 15),
-
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegisterScreen(),
-                  ),
-                );
-              },
-              child: const Text(
-                'Belum punya akun? Daftar di sini',
-                style: TextStyle(color: Colors.blue),
               ),
             ),
           ],
