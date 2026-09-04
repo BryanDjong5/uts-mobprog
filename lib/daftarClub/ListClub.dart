@@ -55,7 +55,6 @@ class _ListClubState extends State<ListClub> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  // NAMA CLUB
                   Text(
                     club.namaClub,
                     style: const TextStyle(
@@ -75,7 +74,6 @@ class _ListClubState extends State<ListClub> {
 
                   const Spacer(),
 
-                  // JUMLAH MEMBER
                   Text(
                     '${club.members} Members',
                     style: const TextStyle(
