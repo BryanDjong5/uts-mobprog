@@ -10,6 +10,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 40), 
 
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(
@@ -44,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             TextField(
               obscureText: true, 
+              controller: _passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(
@@ -55,14 +59,27 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 30), 
 
             ElevatedButton(
-              onPressed: () {
+             onPressed: () {
+              String email = _emailController.text.trim();
+              String password = _passwordController.text.trim();
+
+              if (email.isEmpty || password.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Email dan Password tidak boleh kosong!'),
+                    backgroundColor: Colors.red,
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              } else {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const HomeScreen(),
                   ),
                 );
-              },
+              }
+            },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 backgroundColor: Colors.blue,
