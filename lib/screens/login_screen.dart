@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'register_screen.dart';
 import 'home_screen.dart';
 import '../widgets/custom_text_field.dart';
+import '../widgets/primary_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -34,28 +35,18 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 40), 
 
-            TextField(
+            CustomTextField(
+              labelText: 'Email',
+              prefixIcon: Icons.email,
               controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                prefixIcon: const Icon(Icons.email),
-              ),
             ),
             const SizedBox(height: 20), 
 
-            TextField(
-              obscureText: true, 
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                prefixIcon: const Icon(Icons.lock), 
-              ),
+            CustomTextField(
+               labelText: 'Password',
+               prefixIcon: Icons.lock,
+               obscureText: true,
+               controller: _passwordController,
             ),
             const SizedBox(height: 30), 
 
