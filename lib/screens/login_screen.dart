@@ -50,41 +50,30 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 30), 
 
-            ElevatedButton(
-             onPressed: () {
-              String email = _emailController.text.trim();
-              String password = _passwordController.text.trim();
+            PrimaryButton(
+              text: 'Masuk',
+              onPressed: () {
+                String email = _emailController.text.trim();
+                String password = _passwordController.text.trim();
 
-              if (email.isEmpty || password.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Email dan Password tidak boleh kosong!'),
-                    backgroundColor: Colors.red,
-                    duration: Duration(seconds: 2),
-                  ),
-                );
+                if (email.isEmpty || password.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Email dan Password tidak boleh kosong!'),
+                      backgroundColor: Colors.red,
+                      duration: Duration(seconds: 2),
+                   ),
+                 );
               } else {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
-                  ),
-                );
-              }
-            },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text(
-                'Masuk',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
+                  Navigator.pushReplacement(
+                     context,
+                     MaterialPageRoute(
+                       builder: (context) => const HomeScreen(),
+        ),
+      );
+    }
+  },
+),
             const SizedBox(height: 15),
 
             TextButton(

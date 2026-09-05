@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../widgets/custom_text_field.dart';
+import '../widgets/primary_button.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -8,6 +10,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,64 +39,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             const SizedBox(height: 30),
             
-            //  Ini Untuk Kotak Nama Lengkap
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Nama Lengkap',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                prefixIcon: const Icon(Icons.person),
-              ),
+            CustomTextField(
+              labelText: 'Nama Lengkap',
+              prefixIcon: Icons.person,
+              controller: _nameController, 
             ),
             const SizedBox(height: 20),
 
-            // Ini Untuk Kotak Email
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                prefixIcon: const Icon(Icons.email),
-              ),
+            CustomTextField(
+              labelText: 'Email',
+              prefixIcon: Icons.email,
+              controller: _emailController, 
             ),
             const SizedBox(height: 20),
 
-            // Ini Untuk Kotak Password
-            TextField(
+            CustomTextField(
+              labelText: 'Password',
+              prefixIcon: Icons.lock,
               obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                prefixIcon: const Icon(Icons.lock),
-              ),
+              controller: _passwordController, 
             ),
             const SizedBox(height: 30),
 
             // Ini Untuk Tombol Daftar
-            ElevatedButton(
-              onPressed: () {
-                // Aksi tombol daftar disini
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text(
-                'Daftar',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
+           PrimaryButton(
+             text: 'Daftar',
+             onPressed: () {
+              // Nanti logika validasi atau aksi daftar dimasukkan ke sini
+             },
+           ), 
           ],
         ),
       ),
     );
   }
-}
+} 
