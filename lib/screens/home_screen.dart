@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
 
 // Halaman utama yang menampung Navigation Bar
 class HomeScreen extends StatefulWidget {
@@ -188,6 +189,39 @@ class ExploreClubsPage extends StatelessWidget {
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
+  // Fungsi untuk memunculkan pop-up konfirmasi keluar
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Konfirmasi Keluar'),
+          content: const Text('Apakah Anda yakin ingin keluar dari akun ini?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Menutup dialog
+              },
+              child: const Text('Batal'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () {
+                // Kembali ke LoginScreen dan menghapus seluruh riwayat navigasi sebelumnya
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false,
+                );
+              },
+              child: const Text('Keluar', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -200,21 +234,42 @@ class ProfilePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
-          children: const [
-            CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.blueAccent,
-              child: Icon(Icons.person, size: 50, color: Colors.white),
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Center(
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.blueAccent,
+                child: Icon(Icons.person, size: 50, color: Colors.white),
+              ),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Diana',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 5),
-            Text(
+            const SizedBox(height: 5),
+            const Text(
               'diana@student.untar.ac.id',
               style: TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+            const SizedBox(height: 40),
+            // Tombol Keluar (Logout)
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                icon: const Icon(Icons.logout),
+                label: const Text('Keluar Akun', style: TextStyle(fontSize: 16)),
+                onPressed: () => _showLogoutDialog(context),
+              ),
             ),
           ],
         ),
