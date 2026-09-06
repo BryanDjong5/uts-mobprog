@@ -65,7 +65,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
            PrimaryButton(
              text: 'Daftar',
              onPressed: () {
-              // Nanti logika validasi atau aksi daftar dimasukkan ke sini
+              String email = _emailController.text.trim();
+              String password = _passwordController.text.trim();
+
+              if (email.isEmpty || password.isEmpty) {
+                Scaffoldmessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Email dan Password tidak boleh kosong!'),
+                    backgroundColor: Colors.red,
+                    duration: Duration(seconds: 2),
+                  )
+                )
+              } else {
+                bool isExist = AppData.registeredUsers.any((user) => user.email == email);
+
+                if (isExist) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Email sudah terdaftar! Silakan login.'),
+                      backgroundColor: Colors.orange,
+                      duration: Duration(seconds: 2),
+                    )
+                  )
+                } else {
+                  AppData.registeredusers.add(UserAccount(email: email, password: password));
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Registrasi Berhasil! Silakan Masuk.'),
+                      backgroundColor: Colors.green,
+                      duration: Duration(seconds: 2),
+                    )
+                  )
+                  
+                  Navigator.pop(context);
+                }
+              }
              },
            ), 
           ],

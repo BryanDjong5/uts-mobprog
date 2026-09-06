@@ -14,15 +14,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(24.0), 
+        padding: const EdgeInsets.all(24.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, 
-          crossAxisAlignment: CrossAxisAlignment.stretch, 
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
               'ReClub',
@@ -30,31 +31,31 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
-                color: Colors.blue, 
+                color: Colors.blue,
               ),
             ),
-            const SizedBox(height: 40), 
-
+            const SizedBox(height: 40),
             CustomTextField(
               labelText: 'Email',
               prefixIcon: Icons.email,
               controller: _emailController,
             ),
-            const SizedBox(height: 20), 
-
+            const SizedBox(height: 20),
             CustomTextField(
                labelText: 'Password',
                prefixIcon: Icons.lock,
                obscureText: true,
                controller: _passwordController,
             ),
-            const SizedBox(height: 30), 
-
+            const SizedBox(height: 30),
             PrimaryButton(
               text: 'Masuk',
               onPressed: () {
                 String email = _emailController.text.trim();
                 String password = _passwordController.text.trim();
+
+                const String validEmail = "diana@gmail.com";
+                const String validPassword = "password123";
 
                 if (email.isEmpty || password.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -62,25 +63,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       content: Text('Email dan Password tidak boleh kosong!'),
                       backgroundColor: Colors.red,
                       duration: Duration(seconds: 2),
-                   ),
-                 );
-              } else {
-                  Navigator.pushReplacement(
-                     context,
-                     MaterialPageRoute(
+                    ),
+                  );
+                } else if (email != validEmail || password != validPassword) {
+                   ScaffoldMessenger.of(context).showSnackBar(
+                     const SnackBar(
+                       content: Text('Email atau Password salah! Akun tidak terdaftar.'),
+                       backgroundColor: Colors.orange,
+                       duration: Duration(seconds: 2),
+                     ),
+                   );
+                  } else {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
                        builder: (context) => const HomeScreen(),
-        ),
-      );
-    }
-  },
-),
-            const SizedBox(height: 15),
-
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
+                      ),
+                    );
+                  }
+                },
+              ),
+              const SizedBox(height: 15),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                   context,
+                   MaterialPageRoute(
                     builder: (context) => const RegisterScreen(),
                   ),
                 );
