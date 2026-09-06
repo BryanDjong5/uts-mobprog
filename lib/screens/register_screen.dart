@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
+import '../user_data.dart'; // Jangan lupa import file data ini!
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -13,6 +14,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,21 +40,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             const SizedBox(height: 30),
-            
             CustomTextField(
               labelText: 'Nama Lengkap',
               prefixIcon: Icons.person,
               controller: _nameController, 
             ),
             const SizedBox(height: 20),
-
             CustomTextField(
               labelText: 'Email',
               prefixIcon: Icons.email,
               controller: _emailController, 
             ),
             const SizedBox(height: 20),
-
             CustomTextField(
               labelText: 'Password',
               prefixIcon: Icons.lock,
@@ -60,52 +59,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
               controller: _passwordController, 
             ),
             const SizedBox(height: 30),
+            PrimaryButton(
+              text: 'Daftar',
+              onPressed: () {
+                String email = _emailController.text.trim();
+                String password = _passwordController.text.trim();
 
-            // Ini Untuk Tombol Daftar
-           PrimaryButton(
-             text: 'Daftar',
-             onPressed: () {
-              String email = _emailController.text.trim();
-              String password = _passwordController.text.trim();
-
-              if (email.isEmpty || password.isEmpty) {
-                Scaffoldmessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Email dan Password tidak boleh kosong!'),
-                    backgroundColor: Colors.red,
-                    duration: Duration(seconds: 2),
-                  )
-                )
-              } else {
-                bool isExist = AppData.registeredUsers.any((user) => user.email == email);
-
-                if (isExist) {
+                if (email.isEmpty || password.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Email sudah terdaftar! Silakan login.'),
-                      backgroundColor: Colors.orange,
+                      content: Text('Email dan Password tidak boleh kosong!'),
+                      backgroundColor: Colors.red,
                       duration: Duration(seconds: 2),
-                    )
-                  )
+                    ),
+                  );
                 } else {
-                  AppData.registeredusers.add(UserAccount(email: email, password: password));
+                  bool isExist = AppData.registeredUsers.any((user) => user.email == email);
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Registrasi Berhasil! Silakan Masuk.'),
-                      backgroundColor: Colors.green,
-                      duration: Duration(seconds: 2),
-                    )
-                  )
-                  
-                  Navigator.pop(context);
+                  if (isExist) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Email sudah terdaftar! Silakan login.'),
+                        backgroundColor: Colors.orange,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    AppData.registeredUsers.add(UserAccount(email: email, password: password));
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Registrasi Berhasil! Silakan Masuk.'),
+                        backgroundColor: Colors.green,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    
+                    Navigator.pop(context);
+                  }
                 }
-              }
-             },
-           ), 
+              },
+            ), 
           ],
         ),
       ),
     );
   }
-} 
+}

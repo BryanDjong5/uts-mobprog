@@ -3,6 +3,7 @@ import 'register_screen.dart';
 import 'home_screen.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
+import '../user_data.dart'; // Import file penampung data multi-user
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -42,10 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 20),
             CustomTextField(
-               labelText: 'Password',
-               prefixIcon: Icons.lock,
-               obscureText: true,
-               controller: _passwordController,
+              labelText: 'Password',
+              prefixIcon: Icons.lock,
+              obscureText: true,
+              controller: _passwordController,
             ),
             const SizedBox(height: 30),
             PrimaryButton(
@@ -53,9 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () {
                 String email = _emailController.text.trim();
                 String password = _passwordController.text.trim();
-
-                const String validEmail = "diana@gmail.com";
-                const String validPassword = "password123";
 
                 if (email.isEmpty || password.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -65,30 +63,37 @@ class _LoginScreenState extends State<LoginScreen> {
                       duration: Duration(seconds: 2),
                     ),
                   );
-                } else if (email != validEmail || password != validPassword) {
-                   ScaffoldMessenger.of(context).showSnackBar(
-                     const SnackBar(
-                       content: Text('Email atau Password salah! Akun tidak terdaftar.'),
-                       backgroundColor: Colors.orange,
-                       duration: Duration(seconds: 2),
-                     ),
-                   );
+                } else {
+                  // Cek apakah akun terdaftar di dalam list global AppData
+                  bool isValidUser = AppData.registeredUsers.any(
+                    (user) => user.email == email && user.password == password,
+                  );
+
+                  if (!isValidUser) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Email atau Password salah! Akun tidak ditemukan.'),
+                        backgroundColor: Colors.orange,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   } else {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                       builder: (context) => const HomeScreen(),
+                        builder: (context) => const HomeScreen(),
                       ),
                     );
                   }
-                },
-              ),
-              const SizedBox(height: 15),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                   context,
-                   MaterialPageRoute(
+                }
+              },
+            ),
+            const SizedBox(height: 15),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
                     builder: (context) => const RegisterScreen(),
                   ),
                 );
