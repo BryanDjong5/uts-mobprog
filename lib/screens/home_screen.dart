@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import '../widgets/club_card.dart';
 import '../widgets/custom_search_bar.dart';
+import '../widgets/profile_header.dart';
 
 // Halaman utama yang menampung Navigation Bar
 class HomeScreen extends StatefulWidget {
@@ -238,22 +239,9 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.blueAccent,
-                child: Icon(Icons.person, size: 50, color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Diana',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              'diana@student.untar.ac.id',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+            const ProfileHeader(
+              name: 'Diana',
+              email: 'diana@student.untar.ac.id',
             ),
             const SizedBox(height: 40),
             // Tombol Keluar (Logout)
