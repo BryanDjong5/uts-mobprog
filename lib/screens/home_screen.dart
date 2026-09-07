@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import '../widgets/club_card.dart';
+import '../widgets/custom_search_bar.dart';
 
 // Halaman utama yang menampung Navigation Bar
 class HomeScreen extends StatefulWidget {
@@ -147,10 +148,39 @@ class ExploreClubsPage extends StatelessWidget {
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
       ),
-      body: const Center(
-        child: Text(
-          'Daftar Semua Klub Akan Tampil Disini',
-          style: TextStyle(fontSize: 16, color: Colors.grey),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            // Memanggil Custom Widget #4
+            CustomSearchBar(
+              hintText: 'Cari komunitas impianmu...',
+              onChanged: (value) {
+                // Logika pencarian bisa ditambahkan di sini nanti
+              },
+            ),
+            const SizedBox(height: 25),
+            Expanded(
+              child: ListView(
+                children: [
+                  // Kita bisa pakai ulang Custom Widget #3 (ClubCard) di sini!
+                  ClubCard(
+                    title: 'Klub Fotografi',
+                    subtitle: 'Hunting foto bareng setiap akhir pekan.',
+                    iconData: Icons.camera_alt,
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 15),
+                  ClubCard(
+                    title: 'Klub Musik & Band',
+                    subtitle: 'Latihan studio dan persiapan manggung.',
+                    iconData: Icons.music_note,
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
