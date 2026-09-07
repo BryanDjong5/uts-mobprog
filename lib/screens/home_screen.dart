@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
+import '../widgets/club_card.dart';
 
 // Halaman utama yang menampung Navigation Bar
 class HomeScreen extends StatefulWidget {
@@ -96,61 +97,32 @@ class HomeContentPage extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  // Kartu 1: Klub Belajar Flutter (Sudah bisa diklik dengan InkWell)
-                  Card(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(12),
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Kamu mengklik Klub Belajar Flutter!'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      },
-                      child: const ListTile(
-                        leading: Icon(Icons.group, color: Colors.blueAccent, size: 40),
-                        title: Text(
-                          'Klub Belajar Flutter',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                  ClubCard(
+                    title: 'Klub Belajar Flutter',
+                    subtitle: 'Diskusi dan ngoding bareng setiap minggu.',
+                    iconData: Icons.group,
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Kamu mengklik Klub Belajar Flutter!'),
+                          duration: Duration(seconds: 2),
                         ),
-                        subtitle: Text('Diskusi dan ngoding bareng setiap minggu.'),
-                        trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 15),
-                  // Kartu 2: Klub Game & Esport
-                  // Kartu 2: Klub Game & Esport (Sudah bisa diklik dengan InkWell)
-                  Card(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(12),
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Kamu mengklik Klub Game & Esport!'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      },
-                      child: const ListTile(
-                        leading: Icon(Icons.sports_esports, color: Colors.blueAccent, size: 40),
-                        title: Text(
-                          'Klub Game & Esport',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                  ClubCard(
+                    title: 'Klub Game & Esport',
+                    subtitle: 'Mabar seru dan turnamen internal.',
+                    iconData: Icons.sports_esports,
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Kamu mengklik Klub Game & Esport!'),
+                          duration: Duration(seconds: 2),
                         ),
-                        subtitle: Text('Mabar seru dan turnamen internal.'),
-                        trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),
