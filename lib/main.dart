@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:uts_mobprog/daftarClub/ListClub.dart';
-import 'package:uts_mobprog/daftarClub/AddNewClub.dart';
+
+import 'profile/profile_screen.dart';
+
+// import 'package:uts_mobprog/daftarClub/ListClub.dart';
+// import 'package:uts_mobprog/daftarClub/AddNewClub.dart';
 
 void main() {
   runApp(const Reclub());
@@ -13,10 +16,9 @@ class Reclub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Reclub',
-      home: const ListClub(),
+      home: const ProfileScreen(),
     );
   }
 }
-
-
