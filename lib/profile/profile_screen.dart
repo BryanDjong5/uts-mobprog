@@ -1,42 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'edit_profile_screen.dart';
+import 'components/profile_avatar.dart';
+import 'components/profile_bio_section.dart';
+import 'components/sports_section_header.dart';
+import 'components/sport_item.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  String name = 'van';
-  String username = '@van-541';
-  String genderAge = '⚥ Add gender and age group';
-  String bio = 'Tell us little bit about yourself';
-
-  Future<void> _openEditProfile() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EditProfileScreen(
-          currentName: name,
-          currentUsername: username,
-          currentGenderAge: genderAge,
-          currentBio: bio,
-        ),
-      ),
-    );
-
-    if (result != null && result is Map<String, String>) {
-      setState(() {
-        name = result['name'] ?? name;
-        username = result['username'] ?? username;
-        genderAge = result['genderAge'] ?? genderAge;
-        bio = result['bio'] ?? bio;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,133 +15,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, color: Colors.black),
-            onPressed: () {},
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: Icon(Icons.settings, color: Colors.black),
           ),
         ],
       ),
-      body: Center(
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            const SizedBox(height: 10),
-            GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return SafeArea(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ListTile(
-                            leading: const Icon(
-                              Icons.photo_library_outlined,
-                              color: Colors.black,
-                            ),
-                            title: const Text('Pilih dari Galeri'),
-                            onTap: () => Navigator.pop(context),
-                          ),
-                          ListTile(
-                            leading: const Icon(
-                              Icons.delete_outline,
-                              color: Colors.black,
-                            ),
-                            title: const Text(
-                              'Hapus Foto',
-                              style: TextStyle(color: Colors.red),
-                            ),
-                            onTap: () => Navigator.pop(context),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Color(0xFF3DD598),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(
-                    'VA',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
+            SizedBox(height: 20),
+            ProfileAvatar(initials: 'VA'),
+            SizedBox(height: 16),
+            ProfileBioSection(
+              name: 'van',
+              username: '@van-541',
+              genderAge: '⚥ Add gender and age group',
+              bio: 'Tell us little bit about yourslef',
             ),
-            const SizedBox(height: 16),
-            GestureDetector(
-              onTap: _openEditProfile,
-              child: Text(
-                name,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: _openEditProfile,
-              child: Text(
-                username,
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ),
-            ),
-            const SizedBox(height: 10),
-            GestureDetector(
-              onTap: _openEditProfile,
-              child: Text(
-                genderAge,
-                style: TextStyle(fontSize: 14, color: Colors.black),
-              ),
-            ),
-            const SizedBox(height: 10),
-            GestureDetector(
-              onTap: _openEditProfile,
-              child: Text(
-                bio,
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Divider(color: Colors.grey, thickness: 1),
-            const SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'SPORTS',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                  Text(
-                    '+ Add sports',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 112, 107, 255),
-                    ),
-                  ),
-                ],
-              ),
+            SizedBox(height: 24),
+            Divider(color: Colors.grey, thickness: 0.5),
+            SizedBox(height: 16),
+            SportsSectionHeader(),
+            SizedBox(height: 16),
+            Row(
+              children: [
+                SportItem(sportName: 'Badminton'),
+                SizedBox(width: 8),
+                SportItem(sportName: 'Running'),
+              ],
             ),
           ],
         ),
