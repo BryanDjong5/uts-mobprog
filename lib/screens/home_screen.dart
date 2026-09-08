@@ -169,14 +169,28 @@ class ExploreClubsPage extends StatelessWidget {
                     title: 'Klub Fotografi',
                     subtitle: 'Hunting foto bareng setiap akhir pekan.',
                     iconData: Icons.camera_alt,
-                    onTap: () {},
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Anda mengklik Klub Fotografi'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 15),
                   ClubCard(
                     title: 'Klub Musik & Band',
                     subtitle: 'Latihan studio dan persiapan manggung.',
                     iconData: Icons.music_note,
-                    onTap: () {},
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Anda mengklik Klub Musik & Band'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
