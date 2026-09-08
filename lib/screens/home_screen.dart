@@ -136,9 +136,17 @@ class HomeContentPage extends StatelessWidget {
   }
 }
 
-// 2. Tampilan Halaman Jelajah (Explore)
-class ExploreClubsPage extends StatelessWidget {
+// 2. Tampilan Halaman Jelajah (Explore) -> SUDAH DIJADIKAN STATEFULWIDGET
+class ExploreClubsPage extends StatefulWidget {
   const ExploreClubsPage({super.key});
+
+  @override
+  State<ExploreClubsPage> createState() => _ExploreClubsPageState();
+}
+
+class _ExploreClubsPageState extends State<ExploreClubsPage> {
+  // Variabel untuk menyimpan teks pencarian
+  String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
@@ -157,41 +165,49 @@ class ExploreClubsPage extends StatelessWidget {
             CustomSearchBar(
               hintText: 'Cari komunitas impianmu...',
               onChanged: (value) {
-                // Logika pencarian bisa ditambahkan di sini nanti
+                setState(() {
+                  _searchQuery = value.toLowerCase(); // Menyimpan ketikan
+                });
               },
             ),
             const SizedBox(height: 25),
             Expanded(
               child: ListView(
                 children: [
-                  // Kita bisa pakai ulang Custom Widget #3 (ClubCard) di sini!
-                  ClubCard(
-                    title: 'Klub Fotografi',
-                    subtitle: 'Hunting foto bareng setiap akhir pekan.',
-                    iconData: Icons.camera_alt,
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Anda mengklik Klub Fotografi'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  ClubCard(
-                    title: 'Klub Musik & Band',
-                    subtitle: 'Latihan studio dan persiapan manggung.',
-                    iconData: Icons.music_note,
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Anda mengklik Klub Musik & Band'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                    },
-                  ),
+                  // Syarat: Jika teks ketikan cocok dengan "klub fotografi", tampilkan kartunya
+                  if ('klub fotografi'.contains(_searchQuery)) ...[
+                    ClubCard(
+                      title: 'Klub Fotografi',
+                      subtitle: 'Hunting foto bareng setiap akhir pekan.',
+                      iconData: Icons.camera_alt,
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Anda mengklik Klub Fotografi'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                  ],
+                  
+                  // Syarat: Jika teks ketikan cocok dengan "klub musik & band", tampilkan kartunya
+                  if ('klub musik & band'.contains(_searchQuery)) ...[
+                    ClubCard(
+                      title: 'Klub Musik & Band',
+                      subtitle: 'Latihan studio dan persiapan manggung.',
+                      iconData: Icons.music_note,
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Anda mengklik Klub Musik & Band'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ],
               ),
             ),
