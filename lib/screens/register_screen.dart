@@ -62,13 +62,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             PrimaryButton(
               text: 'Daftar',
               onPressed: () {
+                String nama = _nameController.text.trim();
                 String email = _emailController.text.trim();
                 String password = _passwordController.text.trim();
 
-                if (email.isEmpty || password.isEmpty) {
+                // Validasi: Cek apakah ada satu saja yang kosong
+                if (nama.isEmpty || email.isEmpty || password.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Email dan Password tidak boleh kosong!'),
+                      content: Text('Nama Lengkap, Email, dan Password wajib diisi!'),
                       backgroundColor: Colors.red,
                       duration: Duration(seconds: 2),
                     ),
@@ -85,6 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     );
                   } else {
+                    // Catatan: Pastikan class UserAccount kamu juga mendukung parameter 'nama' jika ingin disimpan
                     AppData.registeredUsers.add(UserAccount(email: email, password: password));
 
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -99,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }
                 }
               },
-            ), 
+            ),
           ],
         ),
       ),
