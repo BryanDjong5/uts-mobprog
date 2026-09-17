@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
+import '/daftarClub/ClubDetail.dart';
+import '../daftarClub/AddNewClub.dart';
 import '../widgets/club_card.dart';
 import '../widgets/custom_search_bar.dart';
 import '../widgets/profile_header.dart';
@@ -104,10 +106,18 @@ class HomeContentPage extends StatelessWidget {
                     subtitle: 'Diskusi dan ngoding bareng setiap minggu.',
                     iconData: Icons.group,
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Kamu mengklik Klub Belajar Flutter!'),
-                          duration: Duration(seconds: 2),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ClubDetail(
+                            title: 'Klub Belajar Flutter',
+                            subtitle: 'Diskusi dan ngoding bareng setiap minggu.',
+                            iconData: '💻',
+                            members: 42,
+                            description:
+                                'Klub ini terbuka untuk semua mahasiswa yang ingin belajar Flutter bareng, '
+                                'dari basic sampai bikin aplikasi nyata. Ada sesi ngoding bareng tiap minggu.',
+                          ),
                         ),
                       );
                     },
@@ -118,10 +128,18 @@ class HomeContentPage extends StatelessWidget {
                     subtitle: 'Mabar seru dan turnamen internal.',
                     iconData: Icons.sports_esports,
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Kamu mengklik Klub Game & Esport!'),
-                          duration: Duration(seconds: 2),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ClubDetail(
+                            title: 'Klub Game & Esport',
+                            subtitle: 'Mabar seru dan turnamen internal.',
+                            iconData: '🎮',
+                            members: 87,
+                            description:
+                                'Wadah buat kamu yang suka gaming, mulai dari mobile legends sampai valorant. '
+                                'Ada turnamen internal rutin dengan hadiah menarik.',
+                          ),
                         ),
                       );
                     },
@@ -157,6 +175,18 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NambahClub(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -181,17 +211,25 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
                       subtitle: 'Hunting foto bareng setiap akhir pekan.',
                       iconData: Icons.camera_alt,
                       onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Anda mengklik Klub Fotografi'),
-                            duration: Duration(seconds: 1),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ClubDetail(
+                              title: 'Klub Fotografi',
+                              subtitle: 'Hunting foto bareng setiap akhir pekan.',
+                              iconData: '📷',
+                              members: 35,
+                              description:
+                                  'Buat kamu yang suka motret, klub ini rutin hunting foto bareng tiap akhir '
+                                  'pekan dan sharing teknik fotografi dari anggota berpengalaman.',
+                            ),
                           ),
                         );
                       },
                     ),
                     const SizedBox(height: 15),
                   ],
-                  
+
                   // Syarat: Jika teks ketikan cocok dengan "klub musik & band", tampilkan kartunya
                   if ('klub musik & band'.contains(_searchQuery)) ...[
                     ClubCard(
@@ -199,10 +237,18 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
                       subtitle: 'Latihan studio dan persiapan manggung.',
                       iconData: Icons.music_note,
                       onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Anda mengklik Klub Musik & Band'),
-                            duration: Duration(seconds: 1),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ClubDetail(
+                              title: 'Klub Musik & Band',
+                              subtitle: 'Latihan studio dan persiapan manggung.',
+                              iconData: '🎸',
+                              members: 21,
+                              description:
+                                  'Klub untuk pecinta musik dan band. Rutin latihan studio bareng dan '
+                                  'mempersiapkan penampilan di acara kampus.',
+                            ),
                           ),
                         );
                       },
