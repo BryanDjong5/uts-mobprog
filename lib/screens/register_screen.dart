@@ -18,11 +18,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF8F9FA),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF8F9FA),
+        backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: const Color(0xFF2B2D42)),
+        iconTheme: IconThemeData(color: const Color(0xFF2B2D42)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
