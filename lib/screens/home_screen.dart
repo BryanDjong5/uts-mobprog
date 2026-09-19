@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
+        selectedItemColor: const Color(0xFF2B2D42),
         unselectedItemColor: Colors.grey,
         backgroundColor: Colors.white,
         elevation: 10,
