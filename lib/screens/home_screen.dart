@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
+        selectedItemColor: const Color(0xFF2B2D42),
         unselectedItemColor: Colors.grey,
         backgroundColor: Colors.white,
         elevation: 10,
@@ -70,10 +70,43 @@ class HomeContentPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ReClub Beranda', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: const Color(0xFF2B2D42),
         foregroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-      ),
+        automaticallyImplyLeading: false, 
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Konfirmasi'),
+                  content: const Text('Anda yakin ingin keluar?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Batal'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                       Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                        (route) => false,
+                       );
+                      },
+                      child: const Text(
+                        'Keluar',
+                        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
+      ), // AppBar,
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -84,7 +117,7 @@ class HomeContentPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
+                color: const Color(0xFF2B2D42),
               ),
             ),
             const SizedBox(height: 10),
