@@ -70,7 +70,7 @@ class HomeContentPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ReClub Beranda', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: const Color(0xFF2B2D42),
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false, 
         leading: IconButton(
@@ -89,8 +89,11 @@ class HomeContentPage extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(context); // Tutup dialog
-                        Navigator.pop(context); // Kembali ke halaman sebelumnya
+                       Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                        (route) => false,
+                       );
                       },
                       child: const Text(
                         'Keluar',
@@ -114,7 +117,7 @@ class HomeContentPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
+                color: const Color(0xFF2B2D42),
               ),
             ),
             const SizedBox(height: 10),
