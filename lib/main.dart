@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/login_screen.dart';
-import 'package:uts_mobprog/daftarClub/ListClub.dart';
-import 'package:uts_mobprog/daftarClub/AddNewClub.dart';
+import 'daftarClub/ListClub.dart';
+import 'daftarClub/AddNewClub.dart';
 
 void main() {
   runApp(const Reclub());
@@ -12,10 +12,22 @@ class Reclub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    // const dihapus dari MaterialApp agar tema bisa dimasukkan
+    return MaterialApp(
       title: 'Reclub',
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
-    );
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2B2D42)),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF2B2D42),
+          foregroundColor: Colors.white, 
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          selectedItemColor: Color(0xFF2B2D42),
+        ),
+        useMaterial3: true,
+      ),
+      home: const LoginScreen(),
+    ); 
   }
 }
