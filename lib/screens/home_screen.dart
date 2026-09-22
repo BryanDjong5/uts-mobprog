@@ -70,8 +70,6 @@ class HomeContentPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ReClub Beranda', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF2B2D42),
-        foregroundColor: Colors.white,
         automaticallyImplyLeading: false, 
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -204,8 +202,6 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Jelajah Klub', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.blueAccent,
-        foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
       ),
       floatingActionButton: FloatingActionButton(
@@ -339,8 +335,6 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil Pengguna', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.blueAccent,
-        foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
       ),
       body: Padding(
