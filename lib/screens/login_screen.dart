@@ -16,6 +16,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+bool _isObscure = true;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -39,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
-                color: Colors.blue,
+                color: const Color(0xFF2B2D42),
               ),
             ),
             const SizedBox(height: 40),
@@ -49,12 +51,28 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: _emailController,
             ),
             const SizedBox(height: 20),
-            CustomTextField(
+            TextField(
+            controller: _passwordController,
+            obscureText: _isObscure,
+            decoration: InputDecoration(
               labelText: 'Password',
-              prefixIcon: Icons.lock,
-              obscureText: true,
-              controller: _passwordController,
+              prefixIcon: const Icon(Icons.lock),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isObscure ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isObscure = !_isObscure;
+                  });
+                },
+              ),
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
             ),
+          ),
             const SizedBox(height: 30),
             PrimaryButton(
               text: 'Masuk',
@@ -107,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               child: const Text(
                 'Belum punya akun? Daftar di sini',
-                style: TextStyle(color: Colors.blue),
+                style: TextStyle(color: const Color(0xFF2B2D42)),
               ),
             ),
           ],
