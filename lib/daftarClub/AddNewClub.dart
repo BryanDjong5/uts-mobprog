@@ -1,6 +1,7 @@
+// daftarClub/AddNewClub.dart
 import 'package:flutter/material.dart';
-import 'package:uts_mobprog/daftarClub/ListClub.dart';
 import '../Models/Club.dart';
+import '/daftarClub/ClubRepository.dart';
 
 class NambahClub extends StatefulWidget {
   const NambahClub({super.key});
@@ -19,11 +20,15 @@ class _NambahClubState extends State<NambahClub> {
 
     if (clubname.isEmpty || clubdesc.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Nama dan deskripsi harus diisi'),
+        SnackBar(
+          content: const Text('Nama dan deskripsi harus diisi'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.redAccent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(7),
+          ),
         ),
       );
-
       return;
     }
 
@@ -34,19 +39,16 @@ class _NambahClubState extends State<NambahClub> {
       isJoined: true,
     );
 
-    Navigator.pop(context, clubBaru);
+    ClubRepository.instance.addClub(clubBaru);
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Club'),
-      ),
-
+      appBar: AppBar(title: const Text('Add Club')),
       body: Padding(
         padding: const EdgeInsets.all(10),
-
         child: Column(
           children: [
             TextField(
@@ -57,9 +59,7 @@ class _NambahClubState extends State<NambahClub> {
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 15),
-
             TextField(
               controller: deskripsiClub,
               decoration: const InputDecoration(
@@ -68,9 +68,7 @@ class _NambahClubState extends State<NambahClub> {
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 15),
-
             ElevatedButton(
               onPressed: createClub,
               child: const Text('Create Club'),

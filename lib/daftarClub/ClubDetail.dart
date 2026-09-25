@@ -1,3 +1,4 @@
+// daftarClub/ClubDetail.dart
 import 'package:flutter/material.dart';
 
 class ClubDetail extends StatefulWidget {
@@ -94,7 +95,7 @@ class _ClubDetailPage extends State<ClubDetail> {
               child: ListTile(
                 leading: const Icon(Icons.people),
                 title: const Text('Jumlah Member'),
-                subtitle: Text('${widget.members} anggota'),
+                subtitle: Text('${widget.members + (isJoined ? 1:0)} anggota'),
               ),
             ),
 

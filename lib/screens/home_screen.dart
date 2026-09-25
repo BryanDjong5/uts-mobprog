@@ -1,3 +1,4 @@
+// screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import '/daftarClub/ClubDetail.dart';
@@ -5,6 +6,8 @@ import '../daftarClub/AddNewClub.dart';
 import '../widgets/club_card.dart';
 import '../widgets/custom_search_bar.dart';
 import '../widgets/profile_header.dart';
+import '../daftarClub/ClubRepository.dart';
+import '../Models/Club.dart';
 
 // Halaman utama yang menampung Navigation Bar
 class HomeScreen extends StatefulWidget {
@@ -17,7 +20,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  // Daftar halaman yang akan tampil saat menu bawah diklik
   static const List<Widget> _pages = <Widget>[
     HomeContentPage(),
     ExploreClubsPage(),
@@ -36,18 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Beranda',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Jelajah',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
+          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Jelajah'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blueAccent,
@@ -61,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// 1. Tampilan Isi Beranda (Home Content)
+// 1. Tampilan Isi Beranda (Home Content) -- TIDAK DIUBAH
 class HomeContentPage extends StatelessWidget {
   const HomeContentPage({super.key});
 
@@ -154,7 +147,7 @@ class HomeContentPage extends StatelessWidget {
   }
 }
 
-// 2. Tampilan Halaman Jelajah (Explore) -> SUDAH DIJADIKAN STATEFULWIDGET
+// 2. Tampilan Halaman Jelajah (Explore)
 class ExploreClubsPage extends StatefulWidget {
   const ExploreClubsPage({super.key});
 
@@ -163,8 +156,14 @@ class ExploreClubsPage extends StatefulWidget {
 }
 
 class _ExploreClubsPageState extends State<ExploreClubsPage> {
-  // Variabel untuk menyimpan teks pencarian
   String _searchQuery = '';
+
+  void _tambahClub() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const NambahClub()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,14 +175,7 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
         automaticallyImplyLeading: false,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const NambahClub(),
-            ),
-          );
-        },
+        onPressed: _tambahClub,
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -191,70 +183,55 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            // Memanggil Custom Widget #4
             CustomSearchBar(
               hintText: 'Cari komunitas impianmu...',
               onChanged: (value) {
                 setState(() {
-                  _searchQuery = value.toLowerCase(); // Menyimpan ketikan
+                  _searchQuery = value.toLowerCase();
                 });
               },
             ),
             const SizedBox(height: 25),
             Expanded(
-              child: ListView(
-                children: [
-                  // Syarat: Jika teks ketikan cocok dengan "klub fotografi", tampilkan kartunya
-                  if ('klub fotografi'.contains(_searchQuery)) ...[
-                    ClubCard(
-                      title: 'Klub Fotografi',
-                      subtitle: 'Hunting foto bareng setiap akhir pekan.',
-                      iconData: Icons.camera_alt,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ClubDetail(
-                              title: 'Klub Fotografi',
-                              subtitle: 'Hunting foto bareng setiap akhir pekan.',
-                              iconData: '📷',
-                              members: 35,
-                              description:
-                                  'Buat kamu yang suka motret, klub ini rutin hunting foto bareng tiap akhir '
-                                  'pekan dan sharing teknik fotografi dari anggota berpengalaman.',
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 15),
-                  ],
+              child: ValueListenableBuilder<List<Club>>(
+                valueListenable: ClubRepository.instance.clubs,
+                builder: (context, clubList, _) {
+                  final filtered = clubList
+                      .where((club) =>
+                          club.namaClub.toLowerCase().contains(_searchQuery))
+                      .toList();
 
-                  // Syarat: Jika teks ketikan cocok dengan "klub musik & band", tampilkan kartunya
-                  if ('klub musik & band'.contains(_searchQuery)) ...[
-                    ClubCard(
-                      title: 'Klub Musik & Band',
-                      subtitle: 'Latihan studio dan persiapan manggung.',
-                      iconData: Icons.music_note,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ClubDetail(
-                              title: 'Klub Musik & Band',
-                              subtitle: 'Latihan studio dan persiapan manggung.',
-                              iconData: '🎸',
-                              members: 21,
-                              description:
-                                  'Klub untuk pecinta musik dan band. Rutin latihan studio bareng dan '
-                                  'mempersiapkan penampilan di acara kampus.',
+                  if (filtered.isEmpty) {
+                    return const Center(child: Text('Klub tidak ditemukan'));
+                  }
+
+                  return ListView.separated(
+                    itemCount: filtered.length,
+                    separatorBuilder: (context, index) => const SizedBox(height: 15),
+                    itemBuilder: (context, index) {
+                      final club = filtered[index];
+                      return ClubCard(
+                        title: club.namaClub,
+                        subtitle: club.deskripsiClub,
+                        iconData: Icons.groups,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ClubDetail(
+                                title: club.namaClub,
+                                subtitle: club.deskripsiClub,
+                                iconData: '👥',
+                                members: club.members,
+                                description: club.deskripsiClub,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ],
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ],
@@ -268,7 +245,6 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  // Fungsi untuk memunculkan pop-up konfirmasi keluar
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -279,14 +255,13 @@ class ProfilePage extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // Menutup dialog
+                Navigator.pop(context);
               },
               child: const Text('Batal'),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               onPressed: () {
-                // Kembali ke LoginScreen dan menghapus seluruh riwayat navigasi sebelumnya
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -315,12 +290,8 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const ProfileHeader(
-              name: 'Diana',
-              email: 'diana@student.untar.ac.id',
-            ),
+            const ProfileHeader(name: 'Diana', email: 'diana@student.untar.ac.id'),
             const SizedBox(height: 40),
-            // Tombol Keluar (Logout)
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -328,9 +299,7 @@ class ProfilePage extends StatelessWidget {
                   backgroundColor: Colors.redAccent,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
                 icon: const Icon(Icons.logout),
                 label: const Text('Keluar Akun', style: TextStyle(fontSize: 16)),
