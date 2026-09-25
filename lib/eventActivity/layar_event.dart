@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'daftar_event.dart';
 
 class LayarEvent extends StatelessWidget {
   @override
@@ -37,6 +38,7 @@ class LayarEvent extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Event(
+              context,
               judul: "Futsal",
               kategori: "Olahraga",
               waktu: "18:00 WIB",
@@ -49,6 +51,7 @@ class LayarEvent extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Event(
+              context,
               judul: "Bulu Tangkis",
               kategori: "Olahraga",
               waktu: "16:00 WIB",
@@ -94,7 +97,8 @@ class LayarEvent extends StatelessWidget {
     );
   }
 
-  Widget Event({
+  Widget Event(
+    BuildContext context, {
     required String judul,
     required String kategori,
     required String waktu,
@@ -179,7 +183,14 @@ class LayarEvent extends StatelessWidget {
                 ),
 
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LayarFormDaftar(namaKlub: judul),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.amberAccent,
                     foregroundColor: Colors.black,
