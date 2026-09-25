@@ -15,6 +15,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+bool _isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,12 +54,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
               controller: _emailController, 
             ),
             const SizedBox(height: 20),
-            CustomTextField(
+            TextField(
+            controller: _passwordController,
+            obscureText: _isObscure,
+            decoration: InputDecoration(
               labelText: 'Password',
-              prefixIcon: Icons.lock,
-              obscureText: true,
-              controller: _passwordController, 
+              prefixIcon: const Icon(Icons.lock),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isObscure ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isObscure = !_isObscure;
+                  });
+                },
+              ),
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
             ),
+          ),
             const SizedBox(height: 30),
             PrimaryButton(
               text: 'Daftar',
