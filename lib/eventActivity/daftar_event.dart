@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 
-class LayarFormDaftar extends StatelessWidget {
+class LayarFormDaftar extends StatefulWidget {
   final String namaKlub;
 
   const LayarFormDaftar({super.key, required this.namaKlub});
 
   @override
+  State<LayarFormDaftar> createState() => _LayarFormDaftarState();
+}
+
+class _LayarFormDaftarState extends State<LayarFormDaftar> {
+  final TextEditingController _namaController = TextEditingController();
+  final TextEditingController _tglLahirController = TextEditingController();
+  final TextEditingController _kelaminController = TextEditingController();
+  final TextEditingController _alamatController = TextEditingController();
+  
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Form Pendaftaran", style: TextStyle(color: Colors.black)),
+        title: const Text(
+          "Form Pendaftaran",
+          style: TextStyle(color: Colors.black),
+        ),
         backgroundColor: Colors.amber,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
@@ -23,8 +36,12 @@ class LayarFormDaftar extends StatelessWidget {
               color: Colors.amber[100],
               child: Center(
                 child: Text(
-                  namaKlub, 
-                  style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black87),
+                  widget.namaKlub,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
             ),
@@ -33,31 +50,92 @@ class LayarFormDaftar extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  const TextField(decoration: InputDecoration(labelText: "Nama Lengkap", border: OutlineInputBorder())),
+                  TextField(
+                  controller: _namaController,
+                  decoration: InputDecoration(
+                    labelText: "Nama Lengkap",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 16),
-                  const TextField(decoration: InputDecoration(labelText: "Tanggal Lahir", border: OutlineInputBorder())),
+                  TextField(
+                    controller: _tglLahirController,
+                    decoration: InputDecoration(
+                      labelText: "Tanggal Lahir",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 16),
-                  const TextField(decoration: InputDecoration(labelText: "Jenis Kelamin", border: OutlineInputBorder())),
+                  TextField(
+                    controller: _kelaminController,
+                    decoration: InputDecoration(
+                      labelText: "Jenis Kelamin",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 16),
-                  const TextField(decoration: InputDecoration(labelText: "Alamat", border: OutlineInputBorder())),
+                  TextField(
+                    controller: _alamatController,
+                    decoration: InputDecoration(
+                      labelText: "Alamat",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 32),
                   SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        if (_namaController.text.trim().isEmpty ||
+                            _tglLahirController.text.trim().isEmpty ||
+                            _kelaminController.text.trim().isEmpty ||
+                            _alamatController.text.trim().isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Lengkapi semua data dahulu!"),
+                              backgroundColor: Colors.red, 
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        } else {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Berhasil mendaftar ke ${widget.namaKlub}!"),
+                              backgroundColor: Colors.grey[800], 
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
-                      child: const Text("Daftar", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        "Kirim ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

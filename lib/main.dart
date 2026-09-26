@@ -13,14 +13,10 @@ class Reclub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Reclub',
-<<<<<<< HEAD
-      home: LayarEvent(),
-=======
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
->>>>>>> bec4e86c5d69660cd7e5aa4dec83573a139fc560
+      home: LayarEvent(),
     );
   }
 }
