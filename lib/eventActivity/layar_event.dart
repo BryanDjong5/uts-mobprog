@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'daftar_event.dart';
+import 'detail_event.dart';
 
 class LayarEvent extends StatelessWidget {
   @override
@@ -110,6 +111,22 @@ class LayarEvent extends StatelessWidget {
       color: Colors.white,
       margin: const EdgeInsets.only(bottom: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: InkWell( 
+        borderRadius: BorderRadius.circular(16),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LayarDetail(
+                judul: judul,
+                kategori: kategori,
+                waktu: waktu,
+                lokasi: lokasi,
+                detailLengkap: detail,
+              ),
+            ),
+          );
+        },
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -209,6 +226,6 @@ class LayarEvent extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }
