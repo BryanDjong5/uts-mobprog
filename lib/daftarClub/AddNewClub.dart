@@ -41,6 +41,8 @@ class _NambahClubState extends State<NambahClub> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xFF2B2D42), 
+        foregroundColor: Colors.white,
         title: const Text('Add Club'),
       ),
 
@@ -71,10 +73,27 @@ class _NambahClubState extends State<NambahClub> {
 
             const SizedBox(height: 15),
 
-            ElevatedButton(
-              onPressed: createClub,
-              child: const Text('Create Club'),
-            ),
+            SizedBox(
+                width: double.infinity, // Membuat tombol membentang penuh
+                height: 50, // Mengatur tinggi tombol agar enak ditekan
+                child: ElevatedButton(
+                  onPressed: createClub,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2B2D42), // Warna navy
+                    foregroundColor: Colors.white, // Warna teks putih
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0), // Melengkungkan sudut
+                    ),
+                  ),
+                  child: const Text(
+                    'Create Club',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

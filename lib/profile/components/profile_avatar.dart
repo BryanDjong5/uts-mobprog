@@ -9,13 +9,13 @@ class ProfileAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: 60,
-      backgroundColor: const Color(0xFF3DD598),
+      backgroundColor: const Color(0xFF2B2D42),
       child: Text(
         initials,
         style: const TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
     );

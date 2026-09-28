@@ -42,6 +42,8 @@ class _ListClubState extends State<ListClub> {
     return Scaffold(
 
       appBar: AppBar(
+        backgroundColor: const Color(0xFF2B2D42), 
+        foregroundColor: Colors.white,
         title: const Text('ReClub'),
       ),
 
@@ -103,6 +105,8 @@ class _ListClubState extends State<ListClub> {
 
       
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF2B2D42),
+        foregroundColor: Colors.white,
         onPressed: () {
           Navigator.push(
             context,
