@@ -3,6 +3,34 @@ import 'daftar_event.dart';
 import 'detail_event.dart';
 
 class LayarEvent extends StatelessWidget {
+
+  final List<Map<String, String>> daftarEvent = [
+    {
+      "judul": "Futsal",
+      "kategori": "Olahraga",
+      "waktu": "18:00 WIB",
+      "lokasi": "Lapangan Futsal",
+      "detail": "Main futsal santai",
+      "kuota": "3 Slot"
+    },
+    {
+      "judul": "Bulu Tangkis",
+      "kategori": "Olahraga",
+      "waktu": "16:00 WIB", 
+      "lokasi": "Jakbar",
+      "detail": "Main main aja",
+      "kuota": "2 Slot"
+    },
+    {
+      "judul": "Nyanyi",
+      "kategori": "Musik",
+      "waktu": "16:00 WIB", 
+      "lokasi": "Jakbar",
+      "detail": "Main main aja",
+      "kuota": "2 Slot"
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,31 +64,24 @@ class LayarEvent extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Event(
-              context,
-              judul: "Futsal",
-              kategori: "Olahraga",
-              waktu: "18:00 WIB",
-              lokasi: "Lapangan Futsal",
-              detail: "Main futsal santai",
-              kuota: "3 Slot",
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: daftarEvent.length, 
+              itemBuilder: (context, index) {
+                final event = daftarEvent[index]; 
+                return Event(
+                  context,
+                  judul: event["judul"]!,
+                  kategori: event["kategori"]!,
+                  waktu: event["waktu"]!,
+                  lokasi: event["lokasi"]!,
+                  detail: event["detail"]!,
+                  kuota: event["kuota"]!,
+                );
+              },
             ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Event(
-              context,
-              judul: "Bulu Tangkis",
-              kategori: "Olahraga",
-              waktu: "16:00 WIB",
-              lokasi: "Jakbar",
-              detail: "Main main aja.",
-              kuota: "2 Slot",
-            ),
-          ),
+          )
         ],
       ),
     );
