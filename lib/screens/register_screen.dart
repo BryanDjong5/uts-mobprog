@@ -17,6 +17,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
 bool _isObscure = true;
 
+final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,101 +30,120 @@ bool _isObscure = true;
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              'Daftar Akun',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF2B2D42),
-              ),
-            ),
-            const SizedBox(height: 30),
-            CustomTextField(
-              labelText: 'Nama Lengkap',
-              prefixIcon: Icons.person,
-              controller: _nameController, 
-            ),
-            const SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Email',
-              prefixIcon: Icons.email,
-              controller: _emailController, 
-            ),
-            const SizedBox(height: 20),
-            TextField(
-            controller: _passwordController,
-            obscureText: _isObscure,
-            decoration: InputDecoration(
-              labelText: 'Password',
-              prefixIcon: const Icon(Icons.lock),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _isObscure ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.grey,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                'Daftar Akun',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF2B2D42),
                 ),
-                onPressed: () {
-                  setState(() {
-                    _isObscure = !_isObscure;
-                  });
+              ),
+              const SizedBox(height: 30),
+              TextFormField(
+                controller: _nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Nama Lengkap',
+                  prefixIcon: Icon(Icons.person),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Nama tidak boleh kosong';
+                  }
+                  return null;
                 },
               ),
-              border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-            ),
-          ),
-            const SizedBox(height: 30),
-            PrimaryButton(
-              text: 'Daftar',
-              onPressed: () {
-                String nama = _nameController.text.trim();
-                String email = _emailController.text.trim();
-                String password = _passwordController.text.trim();
-
-                // Validasi: Cek apakah ada satu saja yang kosong
-                if (nama.isEmpty || email.isEmpty || password.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Nama Lengkap, Email, dan Password wajib diisi!'),
-                      backgroundColor: Colors.red,
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
-                } else {
-                  bool isExist = AppData.registeredUsers.any((user) => user.email == email);
-
-                  if (isExist) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Email sudah terdaftar! Silakan login.'),
-                        backgroundColor: Colors.orange,
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  } else {
-                    // Catatan: Pastikan class UserAccount kamu juga mendukung parameter 'nama' jika ingin disimpan
-                    AppData.registeredUsers.add(UserAccount(email: email, password: password));
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Registrasi Berhasil! Silakan Masuk.'),
-                        backgroundColor: Colors.green,
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                    
-                    Navigator.pop(context);
+              const SizedBox(height: 20),
+              
+              TextFormField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Email tidak boleh kosong';
                   }
-                }
-              },
-            ),
-            const SizedBox(height: 100),
-          ],
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              
+              TextFormField(
+                controller: _passwordController,
+                obscureText: _isObscure,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  prefixIcon: const Icon(Icons.lock),
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isObscure ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isObscure = !_isObscure;
+                      });
+                    },
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Password tidak boleh kosong';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 30),
+              PrimaryButton(
+                text: 'Daftar',
+                onPressed: () {
+                  String nama = _nameController.text.trim();
+                  String email = _emailController.text.trim();
+                  String password = _passwordController.text.trim();
+          
+                  // Validasi: Cek apakah ada satu saja yang kosong
+              if (_formKey.currentState!.validate()) {
+                    bool isExist = AppData.registeredUsers.any((user) => user.email == email);
+          
+                    if (isExist) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Email sudah terdaftar! Silakan login.'),
+                          backgroundColor: Colors.orange,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    } else {
+                      // Catatan: Pastikan class UserAccount kamu juga mendukung parameter 'nama' jika ingin disimpan
+                      AppData.registeredUsers.add(UserAccount(email: email, password: password));
+          
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Registrasi Berhasil! Silakan Masuk.'),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      
+                      Navigator.pop(context);
+                    }
+                  }
+                },
+              ),
+              const SizedBox(height: 100),
+            ],
+          ),
         ),
       ),
     );
