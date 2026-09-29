@@ -54,6 +54,7 @@ class _NambahClubState extends State<NambahClub> {
             TextField(
               controller: namaClub,
               decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.edit, color: Color(0xFF2B2D42)),
                 labelText: 'Masukkan nama club',
                 hintText: 'Nama Club',
                 border: OutlineInputBorder(),
@@ -65,6 +66,7 @@ class _NambahClubState extends State<NambahClub> {
             TextField(
               controller: deskripsiClub,
               decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.description, color: Color(0xFF2B2D42)),
                 labelText: 'Masukkan deskripsi club',
                 hintText: 'Deskripsi',
                 border: OutlineInputBorder(),
