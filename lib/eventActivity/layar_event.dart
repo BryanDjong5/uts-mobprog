@@ -4,10 +4,11 @@ import 'detail_event.dart';
 
 class LayarEvent extends StatelessWidget {
 
-  final List<Map<String, String>> daftarEvent = [
+  final List<Map<String, dynamic>> daftarEvent = [
     {
       "judul": "Futsal",
       "kategori": "Olahraga",
+      "icon": Icons.sports_tennis,
       "waktu": "18:00 WIB",
       "lokasi": "Lapangan Futsal",
       "detail": "Main futsal santai",
@@ -16,6 +17,7 @@ class LayarEvent extends StatelessWidget {
     {
       "judul": "Bulu Tangkis",
       "kategori": "Olahraga",
+      "icon": Icons.sports_tennis,
       "waktu": "16:00 WIB", 
       "lokasi": "Jakbar",
       "detail": "Main main aja",
@@ -24,6 +26,7 @@ class LayarEvent extends StatelessWidget {
     {
       "judul": "Nyanyi",
       "kategori": "Musik",
+      "icon": Icons.music_note,
       "waktu": "16:00 WIB", 
       "lokasi": "Jakbar",
       "detail": "Main main aja",
@@ -74,6 +77,7 @@ class LayarEvent extends StatelessWidget {
                   context,
                   judul: event["judul"]!,
                   kategori: event["kategori"]!,
+                  iconKategori: event["icon"],
                   waktu: event["waktu"]!,
                   lokasi: event["lokasi"]!,
                   detail: event["detail"]!,
@@ -123,6 +127,7 @@ class LayarEvent extends StatelessWidget {
     BuildContext context, {
     required String judul,
     required String kategori,
+    required IconData iconKategori,
     required String waktu,
     required String lokasi,
     required String detail,
@@ -160,7 +165,8 @@ class LayarEvent extends StatelessWidget {
             const SizedBox(height: 4),
             Row(
               children: [
-                const Icon(Icons.sports_tennis, size: 16, color: Colors.grey),
+                Icon(
+        iconKategori,size: 16, color: Colors.grey),
                 const SizedBox(width: 8),
                 Text(
                   kategori,
