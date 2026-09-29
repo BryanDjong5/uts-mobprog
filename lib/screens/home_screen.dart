@@ -205,6 +205,8 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
         automaticallyImplyLeading: false,
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF2B2D42),
+        foregroundColor: Colors.white,
         onPressed: () {
           Navigator.push(
             context,

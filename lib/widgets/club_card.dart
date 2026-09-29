@@ -41,10 +41,10 @@ class ClubCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent.withOpacity(0.1), 
+                    color: const Color(0xFF2B2D42), 
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(iconData, color: Colors.blueAccent, size: 28), // Memanggil iconData
+                  child: Icon(iconData, color: Colors.white, size: 28), // Memanggil iconData
                 ),
                 const SizedBox(width: 16),
                 Expanded(
