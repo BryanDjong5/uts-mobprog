@@ -34,6 +34,17 @@ class _NambahClubState extends State<NambahClub> {
       isJoined: true,
     );
 
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.green,
+        content: Text(
+          'Klub berhasil dibuat!',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        duration: Duration(seconds: 2),
+      )
+    );
+
     Navigator.pop(context, clubBaru);
   }
 

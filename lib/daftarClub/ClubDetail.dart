@@ -30,6 +30,7 @@ class _ClubDetailPage extends State<ClubDetail> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        backgroundColor: Colors.green,
         content: Text(
           isJoined
               ? 'Anda berhasil join ${widget.title}!'
@@ -156,6 +157,13 @@ class _ClubDetailPage extends State<ClubDetail> {
               height: 50,
               child: ElevatedButton.icon(
                 onPressed: _toggleIsJoined,
+                style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2B2D42), // <-- Warna tombol navy
+                foregroundColor: Colors.white,            // <-- Warna teks/ikon putih
+                shape: RoundedRectangleBorder(
+                   borderRadius: BorderRadius.circular(10), // <-- (Opsional) Membulatkan sudut
+                ),
+              ),
                 icon: Icon(
                   isJoined ? Icons.exit_to_app : Icons.group_add,
                 ),
