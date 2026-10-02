@@ -17,7 +17,7 @@ class ProfileHeader extends StatelessWidget {
         const Center(
           child: CircleAvatar(
             radius: 50,
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: const Color(0xFF2B2D42),
             child: Icon(Icons.person, size: 50, color: Colors.white),
           ),
         ),
