@@ -2,16 +2,28 @@ import 'package:flutter/material.dart';
 import '../screens/daftar_event.dart';
 import '../screens/detail_event.dart';
 
-Widget Event(
-    BuildContext context, {
-    required String judul,
-    required String kategori,
-    required IconData iconKategori,
-    required String waktu,
-    required String lokasi,
-    required String detail,
-    required String kuota,
-  }) {
+
+class Event extends StatelessWidget {
+  final String judul;
+  final String kategori;
+  final IconData iconKategori;
+  final String waktu;
+  final String lokasi;
+  final String detail;
+  final String kuota;
+const Event({
+    super.key,
+    required this.judul,
+    required this.kategori,
+    required this.iconKategori,
+    required this.waktu,
+    required this.lokasi,
+    required this.detail,
+    required this.kuota,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
       margin: const EdgeInsets.only(bottom: 16),
@@ -134,5 +146,5 @@ Widget Event(
       ),
     )
   );
-}
+  }}
 

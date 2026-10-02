@@ -15,6 +15,7 @@ class _LayarEventState extends State<LayarEvent> {
     {
       "judul": "Futsal",
       "kategori": "Olahraga",
+      "tanggal": "6",
       "icon": Icons.sports_tennis,
       "waktu": "18:00 WIB",
       "lokasi": "Lapangan Futsal",
@@ -24,6 +25,7 @@ class _LayarEventState extends State<LayarEvent> {
     {
       "judul": "Bulu Tangkis",
       "kategori": "Olahraga",
+      "tanggal": "6",
       "icon": Icons.sports_tennis,
       "waktu": "16:00 WIB", 
       "lokasi": "Jakbar",
@@ -33,27 +35,51 @@ class _LayarEventState extends State<LayarEvent> {
     {
       "judul": "Nyanyi",
       "kategori": "Musik",
+      "tanggal": "6",
       "icon": Icons.music_note,
       "waktu": "16:00 WIB", 
       "lokasi": "Jakbar",
       "detail": "Main main aja",
       "kuota": "2 Slot"
     },
+    {
+      "judul": "PSUT",
+      "kategori": "Musik", 
+      "tanggal": "7", 
+      "icon": Icons.music_note,
+      "waktu": "09:00 WIB",
+      "lokasi": "Panggung",
+      "detail": "Lomba menyanyi",
+      "kuota": "10 Slot"
+    },
+    {
+      "judul": "Padus",
+      "kategori": "Musik", 
+      "tanggal": "8", 
+      "icon": Icons.music_note,
+      "waktu": "13:00 WIB",
+      "lokasi": "Graha",
+      "detail": "Lomba paduan suara",
+      "kuota": "100 Slot"
+    },
   ];
  
   List<Map<String, dynamic>> tampilEvent = []; 
   String kategoriAktif = 'Semua';
   String keyword = '';
+  String tanggalAktif = '6';
   final List<String> daftarKategori = ['Semua', 'Olahraga', 'Musik'];
 
   @override
   void initState() {
     super.initState();
     tampilEvent = daftarEvent; 
+    saringData();
   }
 
   void saringData() {
     List<Map<String, dynamic>> hasil = daftarEvent;
+    hasil = hasil.where((event) => event["tanggal"] == tanggalAktif).toList();
     if (kategoriAktif != 'Semua') {
       hasil = hasil.where((event) => event["kategori"] == kategoriAktif).toList();
     }
@@ -69,6 +95,13 @@ class _LayarEventState extends State<LayarEvent> {
     setState(() {
       tampilEvent = hasil;
     });
+
+    void ubahTanggal(String tanggalPilihan) {
+    setState(() {
+      tanggalAktif = tanggalPilihan;
+      saringData();
+    });
+    }
   }
 
   @override
@@ -89,12 +122,42 @@ class _LayarEventState extends State<LayarEvent> {
             child: Row(
               children: [
                 const SizedBox(width: 16),
-                Kalender("WED", "6", true),
-                Kalender("THU", "7", false),
-                Kalender("FRI", "8", false),
-                Kalender("SAT", "9", false),
-                Kalender("SUN", "10", false),
-                Kalender("MON", "11", false),
+                Kalender("WED", "6", tanggalAktif == "6", onTap: () {
+                  setState(() {
+                    tanggalAktif = "6";
+                    saringData();
+                  });
+                }),
+                Kalender("THU", "7", tanggalAktif == "7", onTap: () {
+                  setState(() {
+                    tanggalAktif = "7";
+                    saringData();
+                  });
+                }),
+                Kalender("FRI", "8", tanggalAktif == "8", onTap: () {
+                  setState(() {
+                    tanggalAktif = "8";
+                    saringData();
+                  });
+                }),
+                Kalender("SAT", "9", tanggalAktif == "9", onTap: () {
+                  setState(() {
+                    tanggalAktif = "9";
+                    saringData();
+                  });
+                }),
+                Kalender("SUN", "10", tanggalAktif == "10", onTap: () {
+                  setState(() {
+                    tanggalAktif = "10";
+                    saringData();
+                  });
+                }),
+                Kalender("MON", "11", tanggalAktif == "11", onTap: () {
+                  setState(() {
+                    tanggalAktif = "11";
+                    saringData();
+                  });
+                }),
                 const SizedBox(width: 16),
               ],
             ),
@@ -165,7 +228,6 @@ class _LayarEventState extends State<LayarEvent> {
               itemBuilder: (context, index) {
                 final event = tampilEvent[index]; 
                 return Event(
-                  context,
                   judul: event["judul"]!,
                   kategori: event["kategori"]!, 
                   iconKategori: event["icon"],
