@@ -52,17 +52,42 @@ class _ClubDetailPage extends State<ClubDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: CircleAvatar(
-                radius: 55,
-                child: Text(
-                  widget.iconData,
-                  style: const TextStyle(
-                    fontSize: 40,
+          SizedBox(
+            height: 170, 
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                // 1. Latar Belakang (Banner)
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 120, 
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300, 
+                      borderRadius: BorderRadius.circular(15), 
+                    ),
                   ),
                 ),
-              ),
+                // 2. Avatar Ikon (Menimpa Banner)
+                CircleAvatar(
+                  radius: 50, 
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor, 
+                  child: CircleAvatar(
+                    radius: 45,
+                    backgroundColor: const Color(0xFF2B2D42), 
+                    child: Text(
+                      widget.iconData,
+                      style: const TextStyle(
+                        fontSize: 35,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+          ),
 
             const SizedBox(height: 20),
 
