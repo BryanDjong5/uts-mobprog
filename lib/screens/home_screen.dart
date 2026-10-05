@@ -232,7 +232,34 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
               },
             ),
             const SizedBox(height: 25),
-            Expanded(
+            // Pengecekan: Jika ketikan tidak cocok dengan klub yang tersedia
+            (!'klub fotografi'.contains(_searchQuery) && !'klub musik & band'.contains(_searchQuery))
+                ? const Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.search_off, size: 100, color: Colors.grey),
+                          SizedBox(height: 20),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "Yah, klub impianmu belum ada, yuk bikin baru!",
+                              style: TextStyle(
+                                fontSize: 16, 
+                                color: Colors.grey, 
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                // Jika ada yang cocok, jalankan Expanded dan ListView bawaanmu
+                Expanded(
+            
               child: ListView(
                 children: [
                   // Syarat: Jika teks ketikan cocok dengan "klub fotografi", tampilkan kartunya
