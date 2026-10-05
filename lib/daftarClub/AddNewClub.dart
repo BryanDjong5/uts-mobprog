@@ -43,37 +43,139 @@ class _NambahClubState extends State<NambahClub> {
     Navigator.pop(context);
   }
 
+  InputDecoration bagusinTampilan({
+    required BuildContext context,
+    required String label,
+    required String hint,
+    required IconData icon,
+  }) {
+    final theme = Theme.of(context);
+    return InputDecoration(
+      labelText: label,
+      hintText: hint,
+      prefixIcon: Icon(icon),
+      filled: true,
+      fillColor: theme.colorScheme.surfaceContainerHighest.withOpacity(0.4),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(
+          color: theme.colorScheme.outline.withOpacity(0.25),
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(
+          color: theme.colorScheme.primary,
+          width: 2,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Add Club')),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextField(
-              controller: namaClub,
-              decoration: const InputDecoration(
-                labelText: 'Masukkan nama club',
-                hintText: 'Nama Club',
-                border: OutlineInputBorder(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary.withOpacity(0.12),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.group_add_rounded,
+                    size: 48,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 15),
-            TextField(
-              controller: deskripsiClub,
-              decoration: const InputDecoration(
-                labelText: 'Masukkan deskripsi club',
-                hintText: 'Deskripsi',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 16),
+              Center(
+                child: Text(
+                  'Buat Club Baru',
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: createClub,
-              child: const Text('Create Club'),
-            ),
-          ],
+              const SizedBox(height: 6),
+              Center(
+                child: Text(
+                  'Isi detail club kamu, lalu ajak teman bergabung.',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 28),
+
+              TextField(
+                controller: namaClub,
+                textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.words,
+                decoration: bagusinTampilan(
+                  context: context,
+                  label: 'Nama Club',
+                  hint: 'Contoh: Klub Fotografi',
+                  icon: Icons.badge_outlined,
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              TextField(
+                controller: deskripsiClub,
+                maxLines: 5,
+                maxLength: 200,
+                textCapitalization: TextCapitalization.sentences,
+                decoration: bagusinTampilan(
+                  context: context,
+                  label: 'Deskripsi',
+                  hint: 'Ceritakan tentang club ini...',
+                  icon: Icons.description_outlined,
+                ).copyWith(alignLabelWithHint: true),
+              ),
+
+              const SizedBox(height: 12),
+
+              SizedBox(
+                width: double.infinity,
+                height: 52,
+                child: FilledButton.icon(
+                  onPressed: createClub,
+                  style: FilledButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  icon: const Icon(Icons.add_circle_outline),
+                  label: const Text(
+                    'Create Club',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
