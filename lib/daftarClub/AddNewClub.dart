@@ -76,6 +76,7 @@ class _NambahClubState extends State<NambahClub> {
 
             TextField(
               controller: deskripsiClub,
+              maxLength: 150,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.description, color: Color(0xFF2B2D42)),
                 labelText: 'Masukkan deskripsi club',
