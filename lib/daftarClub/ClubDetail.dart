@@ -117,12 +117,43 @@ class _ClubDetailPage extends State<ClubDetail> {
             const SizedBox(height: 25),
 
             Card(
-              child: ListTile(
-                leading: const Icon(Icons.people),
-                title: const Text('Jumlah Member'),
-                subtitle: Text('${widget.members} anggota'),
+              elevation: 0, // Dibuat flat (tanpa bayangan) agar lebih modern
+              color: Colors.grey.shade100, // Latar belakang abu-abu sangat muda
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Memisahkan kiri dan kanan
+                  children: [
+            // Sisi Kiri: Ikon dan Label
+                    const Row(
+                      children: [
+                         Icon(Icons.people, color: Colors.grey),
+                         SizedBox(width: 10),
+                         Text(
+                          'Jumlah Member',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+            // Sisi Kanan: Angka Utama
+                    Text(
+                     '${isJoined ? widget.members + 1 : widget.members}',
+                      style: const TextStyle(
+                      fontSize: 24, // Angka besar dan lega
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2B2D42), // Menggunakan warna Navy tema aplikasimu
+                    ),
+                  ),
+                ],
               ),
             ),
+          ),
 
             const SizedBox(height: 12),
 

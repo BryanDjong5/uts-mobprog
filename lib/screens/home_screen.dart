@@ -258,7 +258,7 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
                     ),
                   )
                 // Jika ada yang cocok, jalankan Expanded dan ListView bawaanmu
-                Expanded(
+               : Expanded(
             
               child: ListView(
                 children: [
