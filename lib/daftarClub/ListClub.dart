@@ -23,6 +23,20 @@ class _ListClubState extends State<ListClub> {
     ),
   ];
 
+  Future<void> TambahClub() async{
+    final Club? clubBaru = await Navigator.push(context, 
+     MaterialPageRoute(builder: (context) => const NambahClub(), 
+     ),
+    );
+
+    if(clubBaru != null){
+      setState(() {
+        clubs.add(clubBaru);
+      });
+      
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
