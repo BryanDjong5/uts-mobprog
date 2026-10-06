@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'screens/login_screen.dart';
-import 'package:uts_mobprog/daftarClub/ListClub.dart';
-import 'package:uts_mobprog/daftarClub/AddNewClub.dart';
+
+import 'profile/profile_screen.dart';
+
+// import 'package:uts_mobprog/daftarClub/ListClub.dart';
+// import 'package:uts_mobprog/daftarClub/AddNewClub.dart';
 
 void main() {
   runApp(const Reclub());
@@ -10,12 +12,13 @@ void main() {
 class Reclub extends StatelessWidget {
   const Reclub({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Reclub',
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      title: 'Reclub',
+      home: const ProfileScreen(),
     );
   }
 }
