@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "934237478301",
+    "project_id": "reclub-uts",
+    "storage_bucket": "reclub-uts.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934237478301:android:26730c4a165acf687d6374",
+        "android_client_info": {
+          "package_name": "com.example.uts_mobprog"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0OQuDVsXEFVs3N_0yJgXYZXuveGnvE8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
