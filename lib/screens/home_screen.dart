@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static const List<Widget> _pages = <Widget>[
     HomeContentPage(),
     ExploreClubsPage(),
+    JoinedClubPage(),
     ProfilePage(),
   ];
 
@@ -41,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
           BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Jelajah'),
+          BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Klub Saya'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
         ],
         currentIndex: _selectedIndex,
@@ -271,6 +273,73 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class JoinedClubPage extends StatelessWidget {
+  const JoinedClubPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Klub Saya',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(25),
+        child: ValueListenableBuilder<List<Club>>(
+          valueListenable: ClubRepository.instance.clubs,
+          builder: (context, clubList, _) {
+            final joinedClub = clubList.where((c) => c.isJoined).toList();
+
+            if (joinedClub.isEmpty) {
+              return const Center(
+                child: Text(
+                  'Anda belum bergabung di club mana pun',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              );
+            }
+
+            return ListView.builder(
+              itemCount: joinedClub.length,
+              itemBuilder: (context, index) {
+                final club = joinedClub[index];
+                return ClubCard(
+                  title: club.namaClub,
+                  subtitle: club.deskripsiClub,
+                  iconData: Icons.groups,
+                  fotoPath: club.fotoPath,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ClubDetail(
+                          clubId: club.id,
+                          title: club.namaClub,
+                          subtitle: club.deskripsiClub,
+                          iconData: '👥',
+                          members: club.members,
+                          description: club.deskripsiClub,
+                          fotoPath: club.fotoPath,
+                          isJoined: club.isJoined,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
         ),
       ),
     );

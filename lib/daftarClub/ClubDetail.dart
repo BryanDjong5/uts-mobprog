@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'ClubRepository.dart';
 
 class ClubDetail extends StatefulWidget {
-  final String? clubId;
+  final String? clubId; 
   final String title;
   final String subtitle;
   final String iconData;
@@ -36,21 +36,15 @@ class _ClubDetailPage extends State<ClubDetail> {
   File? foto;
   final ImagePicker picker = ImagePicker();
 
-  static final Map<String, bool> _joinSaved = {};
-  static final Map<String, int> _memberSaved = {};
-  static final Map<String, String?> _fotoSaved = {};
-
-  String get _kunci => widget.clubId ?? widget.title;
-
   @override
   void initState() {
     super.initState();
-    isJoined = _joinSaved[_kunci] ?? widget.isJoined;
-    members = _memberSaved[_kunci] ?? widget.members;
+    final saved = ClubRepository.instance.joinedByName(widget.title);
 
-    final fotoPath = _fotoSaved.containsKey(_kunci)
-        ? _fotoSaved[_kunci]
-        : widget.fotoPath;
+    isJoined = saved != null || widget.isJoined;
+    members = saved?.members ?? widget.members;
+
+    final fotoPath = saved?.fotoPath ?? widget.fotoPath;
     if (fotoPath != null) {
       final file = File(fotoPath);
       if (file.existsSync()) foto = file;
@@ -63,12 +57,14 @@ class _ClubDetailPage extends State<ClubDetail> {
       members += isJoined ? 1 : -1;
     });
 
-    _joinSaved[_kunci] = isJoined;
-    _memberSaved[_kunci] = members;
-
-    if (widget.clubId != null) {
-      ClubRepository.instance.updateJoin(widget.clubId!, isJoined, members);
-    }
+    ClubRepository.instance.setJoin(
+      nama: widget.title,
+      deskripsi:
+          widget.description.isEmpty ? widget.subtitle : widget.description,
+      members: members,
+      joined: isJoined,
+      fotoPath: foto?.path,
+    );
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -83,10 +79,7 @@ class _ClubDetailPage extends State<ClubDetail> {
 
   void _simpanFoto(File? file) {
     setState(() => foto = file);
-    _fotoSaved[_kunci] = file?.path;
-    if (widget.clubId != null) {
-      ClubRepository.instance.updateFoto(widget.clubId!, file?.path);
-    }
+    ClubRepository.instance.setFoto(widget.title, file?.path);
   }
 
   Future<void> _pilihFoto(ImageSource source) async {
