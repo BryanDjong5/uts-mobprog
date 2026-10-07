@@ -1,11 +1,12 @@
 // widgets/club_card.dart
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ClubCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData iconData; 
-  final String? fotoPath;  // Sudah disesuaikan menjadi iconData
+  final IconData iconData;
+  final String? fotoPath;
   final VoidCallback? onTap;
 
   const ClubCard({
@@ -13,42 +14,55 @@ class ClubCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.iconData,
-    this.fotoPath, // Sudah disesuaikan
+    this.fotoPath,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final adaFoto = fotoPath != null && File(fotoPath!).existsSync();
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16.0), 
+        borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05), 
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
-            offset: const Offset(0, 4), 
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(16.0), 
+          borderRadius: BorderRadius.circular(16.0),
           onTap: onTap ?? () {},
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent.withOpacity(0.1), 
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(iconData, color: Colors.blueAccent, size: 28), // Memanggil iconData
-                ),
+                adaFoto
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.file(
+                          File(fotoPath!),
+                          width: 52,
+                          height: 52,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(iconData,
+                            color: Colors.blueAccent, size: 28),
+                      ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
@@ -72,7 +86,8 @@ class ClubCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                const Icon(Icons.arrow_forward_ios,
+                    size: 16, color: Colors.grey),
               ],
             ),
           ),
