@@ -9,8 +9,11 @@ import '../widgets/custom_search_bar.dart';
 import '../widgets/profile_header.dart';
 import '../daftarClub/ClubRepository.dart';
 import '../Models/Club.dart';
+<<<<<<< HEAD
 import '../widgets/notification_bell.dart';
 import 'search_screen.dart';
+=======
+>>>>>>> main
 
 // Halaman utama yang menampung Navigation Bar
 class HomeScreen extends StatefulWidget {
@@ -35,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// 1. Tampilan Isi Beranda (Home Content)
 class HomeContentPage extends StatelessWidget {
   const HomeContentPage({super.key});
 
@@ -194,6 +197,7 @@ class HomeContentPage extends StatelessWidget {
                       );
                     },
                   ),
+
                 ],
               ),
             ),

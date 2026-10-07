@@ -36,13 +36,23 @@ class _ClubDetailPage extends State<ClubDetail> {
   File? foto;
   final ImagePicker picker = ImagePicker();
 
+  static final Map<String, bool> _joinSaved = {};
+  static final Map<String, int> _memberSaved = {};
+  static final Map<String, String?> _fotoSaved = {};
+
+  String get _kunci => widget.clubId ?? widget.title;
+
   @override
   void initState() {
     super.initState();
-    isJoined = widget.isJoined; 
-    members = widget.members;  
-    if (widget.fotoPath != null) {
-      final file = File(widget.fotoPath!);
+    isJoined = _joinSaved[_kunci] ?? widget.isJoined;
+    members = _memberSaved[_kunci] ?? widget.members;
+
+    final fotoPath = _fotoSaved.containsKey(_kunci)
+        ? _fotoSaved[_kunci]
+        : widget.fotoPath;
+    if (fotoPath != null) {
+      final file = File(fotoPath);
       if (file.existsSync()) foto = file;
     }
   }
@@ -52,6 +62,9 @@ class _ClubDetailPage extends State<ClubDetail> {
       isJoined = !isJoined;
       members += isJoined ? 1 : -1;
     });
+
+    _joinSaved[_kunci] = isJoined;
+    _memberSaved[_kunci] = members;
 
     if (widget.clubId != null) {
       ClubRepository.instance.updateJoin(widget.clubId!, isJoined, members);
@@ -70,6 +83,7 @@ class _ClubDetailPage extends State<ClubDetail> {
 
   void _simpanFoto(File? file) {
     setState(() => foto = file);
+    _fotoSaved[_kunci] = file?.path;
     if (widget.clubId != null) {
       ClubRepository.instance.updateFoto(widget.clubId!, file?.path);
     }
