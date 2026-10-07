@@ -10,6 +10,7 @@ class ClubRepository {
   static final ClubRepository instance = ClubRepository._internal();
 
   // Club yang tampil di halaman Jelajah
+  final ValueNotifier<Set<String>> deletedClubs = ValueNotifier<Set<String>>({});
   final ValueNotifier<List<Club>> clubs = ValueNotifier<List<Club>>([
     Club(
       namaClub: 'Klub Fotografi',
@@ -58,7 +59,6 @@ class ClubRepository {
     );
   }
 
-  // Cari club yang sudah diikuti berdasarkan nama
   Club? joinedByName(String nama) {
     for (final c in joinedClubs.value) {
       if (c.namaClub == nama) {
@@ -79,7 +79,6 @@ class ClubRepository {
   }) {
     final sebelumnyaJoin = joinedByName(nama) != null;
 
-    // Cari ID club kalau club tersebut ada di Jelajah
     String clubId = nama;
 
     for (final c in clubs.value) {
@@ -88,10 +87,6 @@ class ClubRepository {
         break;
       }
     }
-
-    // ==========================================
-    // 1. UPDATE CLUB DI HALAMAN JELAJAH
-    // ==========================================
 
     final clubSudahAda = clubs.value.any(
       (c) => c.namaClub == nama,
@@ -109,10 +104,6 @@ class ClubRepository {
               : c,
       ];
     }
-
-    // ==========================================
-    // 2. UPDATE CLUB SAYA
-    // ==========================================
 
     final sisa = joinedClubs.value
         .where((c) => c.namaClub != nama)
@@ -133,9 +124,6 @@ class ClubRepository {
       joinedClubs.value = sisa;
     }
 
-    // ==========================================
-    // 3. NOTIFIKASI
-    // ==========================================
 
     if (joined && !sebelumnyaJoin) {
       NotificationService.instance.notifyClubJoined(
@@ -161,6 +149,11 @@ class ClubRepository {
       for (final c in joinedClubs.value)
         if (c.namaClub != nama) c,
     ];
+
+    deletedClubs.value = { 
+      ...deletedClubs.value, 
+      nama, 
+    };
 
     _clubBuatanSendiri.remove(nama);
   }

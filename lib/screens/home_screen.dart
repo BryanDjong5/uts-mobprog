@@ -1,211 +1,255 @@
 // screens/home_screen.dart
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'login_screen.dart'; 
+import '/daftarClub/ClubDetail.dart'; 
+import '../daftarClub/AddNewClub.dart'; 
+import '../widgets/club_card.dart'; 
+import '../widgets/custom_search_bar.dart'; 
+import '../widgets/profile_header.dart'; 
+import '../daftarClub/ClubRepository.dart'; 
+import '../Models/Club.dart'; 
+import 'package:uts_mobprog/eventActivity/screens/layar_event.dart'; 
+import '../widgets/notification_bell.dart'; 
+import 'search_screen.dart'; 
+ 
+class HomeScreen extends StatefulWidget { 
+  const HomeScreen({super.key}); 
+ 
+  @override 
+  State<HomeScreen> createState() => _HomeScreenState(); 
+} 
+ 
+class _HomeScreenState extends State<HomeScreen> { 
+  int _selectedIndex = 0; 
+ 
+  static const List<Widget> _pages = <Widget>[ 
+    HomeContentPage(), 
+    ExploreClubsPage(), 
+    LayarEvent(), 
+    JoinedClubPage(), 
+    ProfilePage(), 
+  ]; 
+ 
+  void _onItemTapped(int index) { 
+    setState(() { 
+      _selectedIndex = index; 
+    }); 
+  } 
+ 
+  @override 
+  Widget build(BuildContext context) { 
+    return Scaffold( 
+      body: _pages[_selectedIndex], 
+      bottomNavigationBar: BottomNavigationBar( 
+        items: const <BottomNavigationBarItem>[ 
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'), 
+          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Jelajah'), 
+          BottomNavigationBarItem(icon: Icon(Icons.event_note), label: 'Event'), 
+          BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Klub Saya'), 
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'), 
+        ], 
+        currentIndex: _selectedIndex, 
+        selectedItemColor: const Color(0xFF2B2D42), 
+        unselectedItemColor: Colors.grey, 
+        backgroundColor: Colors.white, 
+        elevation: 10, 
+        type: BottomNavigationBarType.fixed, 
+        onTap: _onItemTapped, 
+      ), 
+    ); 
+  } 
+} 
+ 
+class HomeContentPage extends StatelessWidget { 
+  const HomeContentPage({super.key}); 
+ 
+  @override 
+  Widget build(BuildContext context) { 
+    return Scaffold( 
+      appBar: AppBar( 
+        title: const Text( 
+          'ReClub Beranda', 
+          style: TextStyle(fontWeight: FontWeight.bold), 
+        ), 
+        backgroundColor: const Color(0xFF2B2D42), 
+        foregroundColor: Colors.white, 
+        automaticallyImplyLeading: false, 
+        leading: IconButton( 
+          icon: const Icon(Icons.arrow_back), 
+          onPressed: () { 
+            showDialog( 
+              context: context, 
+              builder: (BuildContext context) { 
+                return AlertDialog( 
+                  title: const Text('Konfirmasi'), 
+                  content: const Text('Anda yakin ingin keluar?'), 
+                  actions: [ 
+                    TextButton( 
+                      onPressed: () => Navigator.pop(context), 
+                      child: const Text('Batal'), 
+                    ), 
+                    TextButton( 
+                      onPressed: () { 
+                        Navigator.pushAndRemoveUntil( 
+                          context, 
+                          MaterialPageRoute( 
+                            builder: (context) => const LoginScreen(), 
+                          ), 
+                          (route) => false, 
+                        ); 
+                      }, 
+                      child: const Text( 
+                        'Keluar', 
+                        style: TextStyle( 
+                          color: Colors.red, 
+                          fontWeight: FontWeight.bold, 
+                        ), 
+                      ), 
+                    ), 
+                  ], 
+                ); 
+              }, 
+            ); 
+          }, 
+        ), 
+        actions: [ 
+          IconButton( 
+            icon: const Icon(Icons.search), 
+            onPressed: () { 
+              Navigator.push( 
+                context, 
+                MaterialPageRoute(builder: (_) => const SearchScreen()), 
+              ); 
+            }, 
+          ), 
+          const NotificationBell(color: Colors.white), 
+        ], 
+      ), 
+      body: Padding( 
+        padding: const EdgeInsets.all(24.0), 
+        child: Column( 
+          crossAxisAlignment: CrossAxisAlignment.start, 
+          children: [ 
+            const Text( 
+              'Selamat Datang di ReClub!', 
+              style: TextStyle( 
+                fontSize: 24, 
+                fontWeight: FontWeight.bold, 
+                color: const Color(0xFF2B2D42), 
+              ), 
+            ), 
+            const SizedBox(height: 10), 
+            const Text( 
+              'Temukan berbagai komunitas seru di sekitarmu.', 
+              style: TextStyle(fontSize: 16, color: Colors.grey), 
+            ), 
+            const SizedBox(height: 25), 
+            const Text( 
+              'Klub Populer', 
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), 
+            ), 
+            const SizedBox(height: 15), 
+ 
+            Expanded( 
+              child: ValueListenableBuilder<Set<String>>( 
+                valueListenable: ClubRepository.instance.deletedClubs, 
+                builder: (context, deletedClubs, _) { 
+                  final List<Widget> daftarClub = []; 
+ 
+                  if (!deletedClubs.contains('Klub Belajar Flutter')) { 
+                    daftarClub.add( 
+                      ClubCard( 
+                        title: 'Klub Belajar Flutter', 
+                        subtitle: 
+                            'Diskusi dan ngoding bareng setiap minggu.', 
+                        iconData: Icons.group, 
+                        onTap: () { 
+                          Navigator.push( 
+                            context, 
+                            MaterialPageRoute( 
+                              builder: (context) => ClubDetail( 
+                                title: 'Klub Belajar Flutter', 
+                                subtitle: 
+                                    'Diskusi dan ngoding bareng setiap minggu.', 
+                                iconData: '💻', 
+                                members: 42, 
+                                description: 
+                                    'Klub ini terbuka untuk semua mahasiswa yang ingin belajar Flutter bareng, ' 
+                                    'dari basic sampai bikin aplikasi nyata. Ada sesi ngoding bareng tiap minggu.', 
+                                isJoined: 
+                                    ClubRepository.instance.joinedByName( 
+                                          'Klub Belajar Flutter', 
+                                        ) != 
+                                        null, 
+                              ), 
+                            ), 
+                          ); 
+                        }, 
+                      ), 
+                    ); 
+ 
+                    daftarClub.add( 
+                      const SizedBox(height: 15), 
+                    ); 
+                  } 
+ 
+                  if (!deletedClubs.contains('Klub Game & Esport')) { 
+                    daftarClub.add( 
+                      ClubCard( 
+                        title: 'Klub Game & Esport', 
+                        subtitle: 
+                            'Mabar seru dan turnamen internal.', 
+                        iconData: Icons.sports_esports, 
+                        onTap: () { 
+                          Navigator.push( 
+                            context, 
+                            MaterialPageRoute( 
+                              builder: (context) => ClubDetail( 
+                                title: 'Klub Game & Esport', 
+                                subtitle: 'Mabar seru dan turnamen internal.', 
+                                iconData: '🎮', 
+                                members: 87, 
+                                description: 
+                                    'Wadah buat kamu yang suka gaming, mulai dari mobile legends sampai valorant. ' 
+                                    'Ada turnamen internal rutin dengan hadiah menarik.', 
+                                isJoined: 
+                                    ClubRepository.instance.joinedByName( 
+                                          'Klub Game & Esport', 
+                                        ) != 
+                                        null, 
+                              ), 
+                            ), 
+                          ); 
+                        }, 
+                      ), 
+                    ); 
+                  } 
+ 
+                  if (daftarClub.isEmpty) { 
+                    return const Center( 
+                      child: Text( 
+                        'Belum ada klub populer.', 
+                        style: TextStyle( 
+                          color: Colors.grey, 
+                        ), 
+                      ), 
+                    ); 
+                  } 
+ 
+                  return ListView( 
+                    children: daftarClub, 
+                  ); 
+                }, 
+              ), 
+            ), 
+          ], 
+        ), 
+      ), 
+    ); 
+  } 
+} 
 
-import 'login_screen.dart';
-import '/daftarClub/ClubDetail.dart';
-import '../daftarClub/AddNewClub.dart';
-import '../widgets/club_card.dart';
-import '../widgets/custom_search_bar.dart';
-import '../widgets/profile_header.dart';
-import '../daftarClub/ClubRepository.dart';
-import '../Models/Club.dart';
-import 'package:uts_mobprog/eventActivity/screens/layar_event.dart';
-import '../widgets/notification_bell.dart';
-import 'search_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  static const List<Widget> _pages = <Widget>[
-    HomeContentPage(),
-    ExploreClubsPage(),
-    LayarEvent(),
-    JoinedClubPage(),
-    ProfilePage(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Jelajah'),
-          BottomNavigationBarItem(icon: Icon(Icons.event_note), label: 'Event'),
-          BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Klub Saya'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF2B2D42),
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.white,
-        elevation: 10,
-        type: BottomNavigationBarType.fixed,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class HomeContentPage extends StatelessWidget {
-  const HomeContentPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'ReClub Beranda',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: const Color(0xFF2B2D42),
-        foregroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Konfirmasi'),
-                  content: const Text('Anda yakin ingin keluar?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Batal'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                          (route) => false,
-                        );
-                      },
-                      child: const Text(
-                        'Keluar',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const SearchScreen()),
-              );
-            },
-          ),
-          const NotificationBell(color: Colors.white),
-        ],
-      ), // AppBar,
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Selamat Datang di ReClub!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF2B2D42),
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Temukan berbagai komunitas seru di sekitarmu.',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            const SizedBox(height: 25),
-            const Text(
-              'Klub Populer',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 15),
-            Expanded(
-              child: ListView(
-                children: [
-                  ClubCard(
-                    title: 'Klub Belajar Flutter',
-                    subtitle: 'Diskusi dan ngoding bareng setiap minggu.',
-                    iconData: Icons.group,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ClubDetail(
-                            title: 'Klub Belajar Flutter',
-                            subtitle:
-                                'Diskusi dan ngoding bareng setiap minggu.',
-                            iconData: '💻',
-                            members: 42,
-                            description:
-                                'Klub ini terbuka untuk semua mahasiswa yang ingin belajar Flutter bareng, '
-                                'dari basic sampai bikin aplikasi nyata. Ada sesi ngoding bareng tiap minggu.',
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  ClubCard(
-                    title: 'Klub Game & Esport',
-                    subtitle: 'Mabar seru dan turnamen internal.',
-                    iconData: Icons.sports_esports,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ClubDetail(
-                            title: 'Klub Game & Esport',
-                            subtitle: 'Mabar seru dan turnamen internal.',
-                            iconData: '🎮',
-                            members: 87,
-                            description:
-                                'Wadah buat kamu yang suka gaming, mulai dari mobile legends sampai valorant. '
-                                'Ada turnamen internal rutin dengan hadiah menarik.',
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 // 2. Tampilan Halaman Jelajah (Explore)
 class ExploreClubsPage extends StatefulWidget {
