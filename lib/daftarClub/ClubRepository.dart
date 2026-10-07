@@ -6,6 +6,7 @@ import '../services/notification_service.dart';
 
 class ClubRepository {
   ClubRepository._internal();
+
   static final ClubRepository instance = ClubRepository._internal();
 
   final ValueNotifier<List<Club>> clubs = ValueNotifier<List<Club>>([
@@ -23,7 +24,12 @@ class ClubRepository {
     ),
   ]);
 
+
   final ValueNotifier<List<Club>> joinedClubs = ValueNotifier<List<Club>>([]);
+  final Set<String> _clubBuatanSendiri = {};
+  bool bisaDihapus(String nama) {
+    return _clubBuatanSendiri.contains(nama);
+  }
 
   void addClub(Club club) {
     clubs.value = [...clubs.value, club];
@@ -31,6 +37,8 @@ class ClubRepository {
     if (club.isJoined) {
       joinedClubs.value = [...joinedClubs.value, club];
     }
+
+    _clubBuatanSendiri.add(club.namaClub);
 
     NotificationService.instance.notifyClubCreated(
       clubId: club.id,
@@ -40,8 +48,11 @@ class ClubRepository {
 
   Club? joinedByName(String nama) {
     for (final c in joinedClubs.value) {
-      if (c.namaClub == nama) return c;
+      if (c.namaClub == nama) {
+        return c;
+      }
     }
+
     return null;
   }
 
@@ -54,8 +65,8 @@ class ClubRepository {
   }) {
     final sebelumnyaJoin = joinedByName(nama) != null;
 
-    // id club untuk notifikasi: pakai id dari daftar Jelajah kalau ada
     String clubId = nama;
+
     for (final c in clubs.value) {
       if (c.namaClub == nama) {
         clubId = c.id;
@@ -65,10 +76,18 @@ class ClubRepository {
 
     clubs.value = [
       for (final c in clubs.value)
-        c.namaClub == nama ? c.copyWith(isJoined: joined, members: members) : c,
+        c.namaClub == nama
+            ? c.copyWith(
+                isJoined: joined,
+                members: members,
+              )
+            : c,
     ];
 
-    final sisa = joinedClubs.value.where((c) => c.namaClub != nama).toList();
+    final sisa = joinedClubs.value
+        .where((c) => c.namaClub != nama)
+        .toList();
+
     joinedClubs.value = joined
         ? [
             ...sisa,
@@ -82,7 +101,6 @@ class ClubRepository {
           ]
         : sisa;
 
-    // Notifikasi hanya kalau status benar-benar berubah
     if (joined && !sebelumnyaJoin) {
       NotificationService.instance.notifyClubJoined(
         clubId: clubId,
@@ -96,25 +114,60 @@ class ClubRepository {
     }
   }
 
+  void hapusClub(String nama) {
+  clubs.value = [
+    for (final c in clubs.value)
+      if (c.namaClub != nama) c,
+  ];
+
+  joinedClubs.value = [
+    for (final c in joinedClubs.value)
+      if (c.namaClub != nama) c,
+  ];
+
+  _clubBuatanSendiri.remove(nama);
+}
+
+  void hapusSemuaClubBuatanSendiri() {
+    clubs.value = [
+      for (final c in clubs.value)
+        if (!_clubBuatanSendiri.contains(c.namaClub)) c,
+    ];
+
+    joinedClubs.value = [
+      for (final c in joinedClubs.value)
+        if (!_clubBuatanSendiri.contains(c.namaClub)) c,
+    ];
+
+    _clubBuatanSendiri.clear();
+  }
+
   void setFoto(String nama, String? path) {
-    Club ubah(Club c) => path == null
-        ? c.copyWith(hapusFoto: true)
-        : c.copyWith(fotoPath: path);
+    Club ubah(Club c) {
+      return path == null
+          ? c.copyWith(hapusFoto: true)
+          : c.copyWith(fotoPath: path);
+    }
 
     clubs.value = [
-      for (final c in clubs.value) c.namaClub == nama ? ubah(c) : c,
+      for (final c in clubs.value)
+        c.namaClub == nama ? ubah(c) : c,
     ];
+
     joinedClubs.value = [
-      for (final c in joinedClubs.value) c.namaClub == nama ? ubah(c) : c,
+      for (final c in joinedClubs.value)
+        c.namaClub == nama ? ubah(c) : c,
     ];
   }
-
-  // ---- Versi berbasis id (punya temanmu), dipertahankan ----
 
   void _update(String id, Club Function(Club) ubah) {
-    clubs.value = [for (final c in clubs.value) c.id == id ? ubah(c) : c];
+    clubs.value = [
+      for (final c in clubs.value)
+        c.id == id ? ubah(c) : c,
+    ];
   }
 
+  // Update foto berdasarkan ID
   void updateFoto(String id, String? path) {
     _update(
       id,
@@ -124,19 +177,37 @@ class ClubRepository {
     );
   }
 
-  void updateJoin(String id, bool joined, int members) {
-    final before = clubs.value.where((c) => c.id == id).toList();
-    _update(id, (c) => c.copyWith(isJoined: joined, members: members));
+  void updateJoin(
+    String id,
+    bool joined,
+    int members,
+  ) {
+    final before = clubs.value
+        .where((c) => c.id == id)
+        .toList();
 
-    if (before.isNotEmpty && before.first.isJoined != joined) {
+    _update(
+      id,
+      (c) => c.copyWith(
+        isJoined: joined,
+        members: members,
+      ),
+    );
+
+    if (before.isNotEmpty &&
+        before.first.isJoined != joined) {
       final name = before.first.namaClub;
+
       if (joined) {
         NotificationService.instance.notifyClubJoined(
           clubId: id,
           clubName: name,
         );
       } else {
-        NotificationService.instance.notifyClubLeft(clubId: id, clubName: name);
+        NotificationService.instance.notifyClubLeft(
+          clubId: id,
+          clubName: name,
+        );
       }
     }
   }
