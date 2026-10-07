@@ -1,6 +1,7 @@
-// daftarClub/ClubRepository.dart
 import 'package:flutter/foundation.dart';
+
 import '/Models/Club.dart';
+import '../services/notification_service.dart';
 
 class ClubRepository {
   ClubRepository._internal();
@@ -23,12 +24,14 @@ class ClubRepository {
 
   void addClub(Club club) {
     clubs.value = [...clubs.value, club];
+    NotificationService.instance.notifyClubCreated(
+      clubId: club.id,
+      clubName: club.namaClub,
+    );
   }
 
   void _update(String id, Club Function(Club) ubah) {
-    clubs.value = [
-      for (final c in clubs.value) c.id == id ? ubah(c) : c,
-    ];
+    clubs.value = [for (final c in clubs.value) c.id == id ? ubah(c) : c];
   }
 
   void updateFoto(String id, String? path) {
@@ -41,6 +44,19 @@ class ClubRepository {
   }
 
   void updateJoin(String id, bool joined, int members) {
+    final before = clubs.value.where((c) => c.id == id).toList();
     _update(id, (c) => c.copyWith(isJoined: joined, members: members));
+
+    if (before.isNotEmpty && before.first.isJoined != joined) {
+      final name = before.first.namaClub;
+      if (joined) {
+        NotificationService.instance.notifyClubJoined(
+          clubId: id,
+          clubName: name,
+        );
+      } else {
+        NotificationService.instance.notifyClubLeft(clubId: id, clubName: name);
+      }
+    }
   }
 }
