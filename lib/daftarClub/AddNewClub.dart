@@ -1,5 +1,7 @@
 // daftarClub/AddNewClub.dart
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../Models/Club.dart';
 import '/daftarClub/ClubRepository.dart';
 
@@ -13,6 +15,8 @@ class NambahClub extends StatefulWidget {
 class _NambahClubState extends State<NambahClub> {
   final TextEditingController namaClub = TextEditingController();
   final TextEditingController deskripsiClub = TextEditingController();
+  File? foto;
+  final ImagePicker picker = ImagePicker();
 
   void createClub() {
     final clubname = namaClub.text.trim();
@@ -37,10 +41,64 @@ class _NambahClubState extends State<NambahClub> {
       deskripsiClub: clubdesc,
       members: 1,
       isJoined: true,
+      fotoPath: foto?.path, 
     );
 
     ClubRepository.instance.addClub(clubBaru);
     Navigator.pop(context);
+  }
+
+  Future<void> _pilihFoto(ImageSource source) async {
+    final picked = await picker.pickImage(
+      source: source,
+      maxWidth: 800,
+      imageQuality: 80,
+    );
+    if (picked == null) return;
+    setState(() => foto = File(picked.path));
+  }
+
+  void _tampilkanPilihanFoto() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined),
+              title: const Text('Pilih dari Galeri'),
+              onTap: () {
+                Navigator.pop(ctx);
+                _pilihFoto(ImageSource.gallery);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt_outlined),
+              title: const Text('Ambil dari Kamera'),
+              onTap: () {
+                Navigator.pop(ctx);
+                _pilihFoto(ImageSource.camera);
+              },
+            ),
+            if (foto != null)
+              ListTile(
+                leading: const Icon(Icons.delete_outline, color: Colors.red),
+                title: const Text(
+                  'Hapus Foto',
+                  style: TextStyle(color: Colors.red),
+                ),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  setState(() => foto = null);
+                },
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
   InputDecoration bagusinTampilan({
@@ -78,7 +136,9 @@ class _NambahClubState extends State<NambahClub> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).copyWith(
-      colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 0, 67, 150)),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color.fromARGB(255, 0, 67, 150),
+      ),
     );
 
     return Theme(
@@ -91,21 +151,6 @@ class _NambahClubState extends State<NambahClub> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary.withOpacity(0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.group_add_rounded,
-                      size: 48,
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
                 Center(
                   child: Text(
                     'Buat Club Baru',
@@ -125,7 +170,68 @@ class _NambahClubState extends State<NambahClub> {
                   ),
                 ),
 
-                const SizedBox(height: 28),
+                const SizedBox(height: 24),
+
+                // Kolom foto (opsional)
+                Center(
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: _tampilkanPilihanFoto,
+                        child: Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundColor:
+                                  theme.colorScheme.primary.withOpacity(0.12),
+                              backgroundImage:
+                                  foto != null ? FileImage(foto!) : null,
+                              child: foto == null
+                                  ? Icon(
+                                      Icons.add_a_photo_outlined,
+                                      size: 32,
+                                      color: theme.colorScheme.primary,
+                                    )
+                                  : null,
+                            ),
+                            if (foto != null)
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.primary,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: theme.colorScheme.surface,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 16,
+                                    color: theme.colorScheme.onPrimary,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        foto == null
+                            ? 'Foto Club (opsional)'
+                            : 'Ketuk untuk ganti foto',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 24),
 
                 TextField(
                   controller: namaClub,
@@ -134,7 +240,7 @@ class _NambahClubState extends State<NambahClub> {
                   decoration: bagusinTampilan(
                     theme: theme,
                     label: 'Nama Club',
-                    hint: 'Contoh: Klub Fotografi',
+                    hint: 'Isi nama klub yang anda inginkan',
                     icon: Icons.badge_outlined,
                   ),
                 ),
@@ -151,7 +257,18 @@ class _NambahClubState extends State<NambahClub> {
                     label: 'Deskripsi',
                     hint: 'Ceritakan tentang club ini...',
                     icon: Icons.description_outlined,
-                  ).copyWith(alignLabelWithHint: true),
+                  ).copyWith(
+                    alignLabelWithHint: true,
+                    prefixIcon: const Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 12),
+                          child: Icon(Icons.description_outlined),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
 
                 const SizedBox(height: 12),

@@ -9,6 +9,7 @@ import '../widgets/profile_header.dart';
 import '../daftarClub/ClubRepository.dart';
 import '../Models/Club.dart';
 
+
 // Halaman utama yang menampung Navigation Bar
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -247,6 +248,7 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
                         title: club.namaClub,
                         subtitle: club.deskripsiClub,
                         iconData: Icons.groups,
+                        fotoPath: club.fotoPath,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -257,6 +259,7 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
                                 iconData: '👥',
                                 members: club.members,
                                 description: club.deskripsiClub,
+                                fotoPath: club.fotoPath,
                               ),
                             ),
                           );

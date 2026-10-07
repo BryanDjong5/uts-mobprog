@@ -1,16 +1,19 @@
+// widgets/club_card.dart
 import 'package:flutter/material.dart';
 
 class ClubCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData iconData; // Sudah disesuaikan menjadi iconData
+  final IconData iconData; 
+  final String? fotoPath;  // Sudah disesuaikan menjadi iconData
   final VoidCallback? onTap;
 
   const ClubCard({
     super.key,
     required this.title,
     required this.subtitle,
-    required this.iconData, // Sudah disesuaikan
+    required this.iconData,
+    this.fotoPath, // Sudah disesuaikan
     this.onTap,
   });
 
