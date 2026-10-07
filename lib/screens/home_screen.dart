@@ -1,4 +1,3 @@
-// screens/home_screen.dart
 import 'package:flutter/material.dart';
 
 import 'login_screen.dart';
@@ -9,13 +8,9 @@ import '../widgets/custom_search_bar.dart';
 import '../widgets/profile_header.dart';
 import '../daftarClub/ClubRepository.dart';
 import '../Models/Club.dart';
-<<<<<<< HEAD
 import '../widgets/notification_bell.dart';
 import 'search_screen.dart';
-=======
->>>>>>> main
 
-// Halaman utama yang menampung Navigation Bar
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -37,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
       _selectedIndex = index;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +191,6 @@ class HomeContentPage extends StatelessWidget {
                       );
                     },
                   ),
-
                 ],
               ),
             ),
