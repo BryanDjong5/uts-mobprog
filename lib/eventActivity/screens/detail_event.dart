@@ -19,17 +19,17 @@ class LayarDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFFCF8FF),
       appBar: AppBar(
         title: Text(
           "Detail $judul",
           style: const TextStyle(
-            color: Colors.black,
+            color: Colors.white, fontWeight: FontWeight.bold
           ),
         ),
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.blueAccent,
         iconTheme: const IconThemeData(
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
       body: SingleChildScrollView(
@@ -41,14 +41,14 @@ class LayarDetail extends StatelessWidget {
               width: double.infinity,
               height: 200,
               decoration: BoxDecoration(
-                color: Colors.amber[100],
+                color: Color.fromARGB(255, 186, 210, 247),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: const Center(
                 child: Icon(
                   Icons.image,
                   size: 80,
-                  color: Colors.amber,
+                  color: Colors.white,
                 ),
               ),
             ),

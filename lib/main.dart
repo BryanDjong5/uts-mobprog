@@ -19,7 +19,7 @@ class Reclub extends StatelessWidget {
       title: 'Reclub',
       debugShowCheckedModeBanner: false,
       //home: LoginScreen(),
-       home: LayarEvent()
+      home: LayarEvent(),
     );
   }
 }

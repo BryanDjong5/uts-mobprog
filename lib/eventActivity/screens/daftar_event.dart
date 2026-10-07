@@ -12,20 +12,20 @@ class LayarFormDaftar extends StatefulWidget {
 class _LayarFormDaftarState extends State<LayarFormDaftar> {
   final TextEditingController _namaController = TextEditingController();
   final TextEditingController _tglLahirController = TextEditingController();
-  final TextEditingController _kelaminController = TextEditingController();
   final TextEditingController _alamatController = TextEditingController();
+  String jenisKelamin = "";
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFFCF8FF),
       appBar: AppBar(
         title: const Text(
           "Form Pendaftaran",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Color(0xFFFFCF3A),
-        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: Colors.blueAccent,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -33,14 +33,14 @@ class _LayarFormDaftarState extends State<LayarFormDaftar> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 16),
-              color: Colors.amber[100],
+              color: const Color.fromARGB(255, 186, 210, 247),
               child: Center(
                 child: Text(
-                  widget.namaKlub,
+                  "Gambar event",
                   style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -62,6 +62,18 @@ class _LayarFormDaftarState extends State<LayarFormDaftar> {
                   const SizedBox(height: 16),
                   TextField(
                     controller: _tglLahirController,
+                     onTap: () async {
+                      DateTime? tanggal = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                        initialDate: DateTime(2005),
+                      );
+                      if (tanggal != null) {
+                        _tglLahirController.text =
+                            "${tanggal.day}/${tanggal.month}/${tanggal.year}";
+                      }
+                    },
                     decoration: InputDecoration(
                       labelText: "Tanggal Lahir",
                       border: OutlineInputBorder(
@@ -70,14 +82,31 @@ class _LayarFormDaftarState extends State<LayarFormDaftar> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  TextField(
-                    controller: _kelaminController,
+                  DropdownButtonFormField<String>(
+                    borderRadius: BorderRadius.circular(16),
+                    dropdownColor: Colors.white,
+                    icon: const Icon(Icons.keyboard_arrow_down_rounded),
                     decoration: InputDecoration(
                       labelText: "Jenis Kelamin",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: "Laki-laki", 
+                        child: Text("Laki-laki")
+                      ),
+                      DropdownMenuItem(
+                        value: "Perempuan", 
+                        child: Text("Perempuan")
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        jenisKelamin = value ?? "";
+                      });
+                    },
                   ),
                   const SizedBox(height: 16),
                   TextField(
@@ -97,7 +126,7 @@ class _LayarFormDaftarState extends State<LayarFormDaftar> {
                       onPressed: () {
                         if (_namaController.text.trim().isEmpty ||
                             _tglLahirController.text.trim().isEmpty ||
-                            _kelaminController.text.trim().isEmpty ||
+                            jenisKelamin.isEmpty ||
                             _alamatController.text.trim().isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -111,7 +140,7 @@ class _LayarFormDaftarState extends State<LayarFormDaftar> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text("Berhasil mendaftar ke ${widget.namaKlub}!"),
-                              backgroundColor: Colors.grey[800], 
+                              backgroundColor: Colors.green[800], 
                               duration: const Duration(seconds: 2),
                             ),
                           );

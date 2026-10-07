@@ -20,7 +20,7 @@ class _LayarEventState extends State<LayarEvent> {
       "waktu": "18:00 WIB",
       "lokasi": "Lapangan Futsal",
       "detail": "Main futsal santai",
-      "kuota": "3 Slot"
+      "kuota": "5 Slot"
     },
     {
       "judul": "Bulu Tangkis",
@@ -108,7 +108,7 @@ class _LayarEventState extends State<LayarEvent> {
     return Scaffold(
       backgroundColor: Color(0xFFFCF8FF),
       appBar: AppBar(
-        title: Text("Jadwal & Event", style: TextStyle(color: Colors.black)),
+        title: Text("Jadwal & Event", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.blueAccent,
         actions: [
           Padding(
