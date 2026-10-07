@@ -24,4 +24,23 @@ class ClubRepository {
   void addClub(Club club) {
     clubs.value = [...clubs.value, club];
   }
+
+  void _update(String id, Club Function(Club) ubah) {
+    clubs.value = [
+      for (final c in clubs.value) c.id == id ? ubah(c) : c,
+    ];
+  }
+
+  void updateFoto(String id, String? path) {
+    _update(
+      id,
+      (c) => path == null
+          ? c.copyWith(hapusFoto: true)
+          : c.copyWith(fotoPath: path),
+    );
+  }
+
+  void updateJoin(String id, bool joined, int members) {
+    _update(id, (c) => c.copyWith(isJoined: joined, members: members));
+  }
 }
