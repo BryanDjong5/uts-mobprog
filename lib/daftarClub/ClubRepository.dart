@@ -9,6 +9,7 @@ class ClubRepository {
 
   static final ClubRepository instance = ClubRepository._internal();
 
+  // Club yang tampil di halaman Jelajah
   final ValueNotifier<List<Club>> clubs = ValueNotifier<List<Club>>([
     Club(
       namaClub: 'Klub Fotografi',
@@ -24,18 +25,29 @@ class ClubRepository {
     ),
   ]);
 
+  // Club yang sudah diikuti user
+  final ValueNotifier<List<Club>> joinedClubs =
+      ValueNotifier<List<Club>>([]);
 
-  final ValueNotifier<List<Club>> joinedClubs = ValueNotifier<List<Club>>([]);
+  // Menyimpan nama club yang dibuat sendiri
   final Set<String> _clubBuatanSendiri = {};
+
   bool bisaDihapus(String nama) {
     return _clubBuatanSendiri.contains(nama);
   }
 
+  // Tambah club baru
   void addClub(Club club) {
-    clubs.value = [...clubs.value, club];
+    clubs.value = [
+      ...clubs.value,
+      club,
+    ];
 
     if (club.isJoined) {
-      joinedClubs.value = [...joinedClubs.value, club];
+      joinedClubs.value = [
+        ...joinedClubs.value,
+        club,
+      ];
     }
 
     _clubBuatanSendiri.add(club.namaClub);
@@ -46,6 +58,7 @@ class ClubRepository {
     );
   }
 
+  // Cari club yang sudah diikuti berdasarkan nama
   Club? joinedByName(String nama) {
     for (final c in joinedClubs.value) {
       if (c.namaClub == nama) {
@@ -56,6 +69,7 @@ class ClubRepository {
     return null;
   }
 
+  // Join / Leave club
   void setJoin({
     required String nama,
     required String deskripsi,
@@ -65,6 +79,7 @@ class ClubRepository {
   }) {
     final sebelumnyaJoin = joinedByName(nama) != null;
 
+    // Cari ID club kalau club tersebut ada di Jelajah
     String clubId = nama;
 
     for (final c in clubs.value) {
@@ -74,32 +89,53 @@ class ClubRepository {
       }
     }
 
-    clubs.value = [
-      for (final c in clubs.value)
-        c.namaClub == nama
-            ? c.copyWith(
-                isJoined: joined,
-                members: members,
-              )
-            : c,
-    ];
+    // ==========================================
+    // 1. UPDATE CLUB DI HALAMAN JELAJAH
+    // ==========================================
+
+    final clubSudahAda = clubs.value.any(
+      (c) => c.namaClub == nama,
+    );
+
+    if (clubSudahAda) {
+      clubs.value = [
+        for (final c in clubs.value)
+          c.namaClub == nama
+              ? c.copyWith(
+                  isJoined: joined,
+                  members: members,
+                  fotoPath: fotoPath,
+                )
+              : c,
+      ];
+    }
+
+    // ==========================================
+    // 2. UPDATE CLUB SAYA
+    // ==========================================
 
     final sisa = joinedClubs.value
         .where((c) => c.namaClub != nama)
         .toList();
 
-    joinedClubs.value = joined
-        ? [
-            ...sisa,
-            Club(
-              namaClub: nama,
-              deskripsiClub: deskripsi,
-              members: members,
-              isJoined: true,
-              fotoPath: fotoPath,
-            ),
-          ]
-        : sisa;
+    if (joined) {
+      joinedClubs.value = [
+        ...sisa,
+        Club(
+          namaClub: nama,
+          deskripsiClub: deskripsi,
+          members: members,
+          isJoined: true,
+          fotoPath: fotoPath,
+        ),
+      ];
+    } else {
+      joinedClubs.value = sisa;
+    }
+
+    // ==========================================
+    // 3. NOTIFIKASI
+    // ==========================================
 
     if (joined && !sebelumnyaJoin) {
       NotificationService.instance.notifyClubJoined(
@@ -114,19 +150,20 @@ class ClubRepository {
     }
   }
 
+  // Hapus club dari semua daftar
   void hapusClub(String nama) {
-  clubs.value = [
-    for (final c in clubs.value)
-      if (c.namaClub != nama) c,
-  ];
+    clubs.value = [
+      for (final c in clubs.value)
+        if (c.namaClub != nama) c,
+    ];
 
-  joinedClubs.value = [
-    for (final c in joinedClubs.value)
-      if (c.namaClub != nama) c,
-  ];
+    joinedClubs.value = [
+      for (final c in joinedClubs.value)
+        if (c.namaClub != nama) c,
+    ];
 
-  _clubBuatanSendiri.remove(nama);
-}
+    _clubBuatanSendiri.remove(nama);
+  }
 
   void hapusSemuaClubBuatanSendiri() {
     clubs.value = [
@@ -167,7 +204,6 @@ class ClubRepository {
     ];
   }
 
-  // Update foto berdasarkan ID
   void updateFoto(String id, String? path) {
     _update(
       id,
@@ -212,4 +248,5 @@ class ClubRepository {
     }
   }
 }
+
 

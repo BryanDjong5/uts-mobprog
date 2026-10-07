@@ -1,3 +1,4 @@
+// screens/home_screen.dart
 import 'package:flutter/material.dart';
 
 import 'login_screen.dart';
@@ -326,10 +327,8 @@ class JoinedClubPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(25),
         child: ValueListenableBuilder<List<Club>>(
-          valueListenable: ClubRepository.instance.clubs,
-          builder: (context, clubList, _) {
-            final joinedClub = clubList.where((c) => c.isJoined).toList();
-
+          valueListenable: ClubRepository.instance.joinedClubs,
+          builder: (context, joinedClub, _) {
             if (joinedClub.isEmpty) {
               return const Center(
                 child: Text(
@@ -343,6 +342,7 @@ class JoinedClubPage extends StatelessWidget {
               itemCount: joinedClub.length,
               itemBuilder: (context, index) {
                 final club = joinedClub[index];
+
                 return ClubCard(
                   title: club.namaClub,
                   subtitle: club.deskripsiClub,
@@ -360,7 +360,7 @@ class JoinedClubPage extends StatelessWidget {
                           members: club.members,
                           description: club.deskripsiClub,
                           fotoPath: club.fotoPath,
-                          isJoined: club.isJoined,
+                          isJoined: true,
                         ),
                       ),
                     );
@@ -374,6 +374,7 @@ class JoinedClubPage extends StatelessWidget {
     );
   }
 }
+
 
 // 3. Tampilan Halaman Profil (Profile)
 class ProfilePage extends StatelessWidget {
