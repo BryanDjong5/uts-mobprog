@@ -62,13 +62,30 @@ class _LayarEventState extends State<LayarEvent> {
       "detail": "Lomba paduan suara",
       "kuota": "100 Slot"
     },
+    {
+      "judul": "Futsal",
+      "kategori": "Olahraga",
+      "tanggal": "7",
+      "icon": Icons.sports_tennis,
+      "waktu": "18:00 WIB",
+      "lokasi": "Lapangan Futsal",
+      "detail": "Main futsal santai",
+      "kuota": "12 Slot"
+    },
+    {
+      "judul": "Basket",
+      "kategori": "Olahraga",
+      "tanggal": "9",
+      "icon": Icons.sports_tennis,
+      "waktu": "18:00 WIB",
+      "lokasi": "Lapangan Futsal",
+      "detail": "Main futsal santai",
+      "kuota": "6 Slot"
+    },
   ];
  
   List<Map<String, dynamic>> tampilEvent = []; 
-  String kategoriAktif = 'Semua';
-  String keyword = '';
   String tanggalAktif = '6';
-  final List<String> daftarKategori = ['Semua', 'Olahraga', 'Musik'];
 
   @override
   void initState() {
@@ -80,37 +97,45 @@ class _LayarEventState extends State<LayarEvent> {
   void saringData() {
     List<Map<String, dynamic>> hasil = daftarEvent;
     hasil = hasil.where((event) => event["tanggal"] == tanggalAktif).toList();
-    if (kategoriAktif != 'Semua') {
-      hasil = hasil.where((event) => event["kategori"] == kategoriAktif).toList();
-    }
-   if (keyword.isNotEmpty) {
-      hasil = hasil
-          .where((event) => event["judul"]
-              .toString()
-              .toLowerCase()
-              .contains(keyword.toLowerCase()))
-          .toList();
-    }
 
     setState(() {
       tampilEvent = hasil;
     });
-
-    void ubahTanggal(String tanggalPilihan) {
-    setState(() {
-      tanggalAktif = tanggalPilihan;
-      saringData();
-    });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFFCF8FF),
       appBar: AppBar(
         title: Text("Jadwal & Event", style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.blueAccent,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: TextButton.icon(
+              onPressed: () {
+              },
+              icon: const Icon(Icons.bookmark, color: Color(0xFF4285F4), size: 18),
+              label: const Text(
+                "Event Saya",
+                style: TextStyle(
+                  color: Color(0xFF4285F4),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.lightBlueAccent, 
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+              ),
+            ),
+          ),
+        ],
       ),
 
       body: Column(
@@ -163,63 +188,7 @@ class _LayarEventState extends State<LayarEvent> {
             ),
           ),
 
-          const SizedBox(height: 30),
-
-          const SizedBox(height: 16),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              onChanged: (teks) {
-                keyword = teks;
-                saringData(); 
-
-              },
-              decoration: InputDecoration(
-                hintText: "Cari nama event",
-                prefixIcon: const Icon(Icons.search),
-                filled: true,
-                fillColor: Colors.grey[100],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 0),
-              ), 
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: daftarKategori.map((kategori) {
-                final bool isAktif = kategoriAktif == kategori;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ChoiceChip(
-                    label: Text(
-                      kategori,
-                      style: TextStyle(
-                        color: isAktif ? Colors.white : Colors.black87,
-                        fontWeight: isAktif ? FontWeight.bold : FontWeight.normal,
-                      ),
-                    ),
-                    selected: isAktif,
-                    selectedColor: Colors.amber[700],
-                    backgroundColor: Colors.grey[200],
-                    showCheckmark: false, 
-                    onSelected: (selected) {
-                      kategoriAktif = kategori;
-                      saringData(); 
-                    },
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
+          const SizedBox(height: 40),
 
           Expanded(
             child: ListView.builder(

@@ -16,7 +16,8 @@ class Reclub extends StatelessWidget {
     return MaterialApp(
       title: 'Reclub',
       debugShowCheckedModeBanner: false,
-      home: LayarEvent(),
+      //home: LoginScreen(),
+       home: LayarEvent()
     );
   }
 }

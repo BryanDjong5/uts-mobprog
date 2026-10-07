@@ -24,7 +24,7 @@ class _LayarFormDaftarState extends State<LayarFormDaftar> {
           "Form Pendaftaran",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.amber,
+        backgroundColor: Color(0xFFFFCF3A),
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(

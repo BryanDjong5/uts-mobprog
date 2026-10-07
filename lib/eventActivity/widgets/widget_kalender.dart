@@ -23,7 +23,7 @@ class Kalender extends StatelessWidget {
         margin: const EdgeInsets.only(right: 12),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: isAktif ? Colors.greenAccent[700] : Colors.grey[200],
+          color: isAktif ? Color(0xFF4285F4) : Colors.grey[200],
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(

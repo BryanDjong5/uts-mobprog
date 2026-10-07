@@ -22,8 +22,26 @@ const Event({
     required this.kuota,
   });
 
+  int _getAngka() {
+    try {
+      String angka = kuota.replaceAll(RegExp(r'[^0-9]'), '');
+      return int.parse(angka);
+    } catch (e) {
+      return 0; 
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final int angkaSlot = _getAngka();
+    final Color warnaBg = angkaSlot > 10
+        ? Colors.green[100]!
+        : (angkaSlot > 3 ? Colors.orange[100]! : Colors.red[100]!);
+        
+    final Color warnaTeks = angkaSlot > 10
+        ? Colors.green[800]!
+        : (angkaSlot > 3 ? Colors.deepOrange : Colors.red[800]!);
+
     return Card(
       color: Colors.white,
       margin: const EdgeInsets.only(bottom: 16),
@@ -57,7 +75,7 @@ const Event({
             Row(
               children: [
                 Icon(
-        iconKategori,size: 16, color: Colors.grey),
+                  iconKategori,size: 16, color: Colors.grey),
                 const SizedBox(width: 8),
                 Text(
                   kategori,
@@ -105,14 +123,14 @@ const Event({
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.orange[100],
+                    color: warnaBg,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     kuota,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.deepOrange,
+                      color: warnaTeks,
                     ),
                   ),
                 ),
