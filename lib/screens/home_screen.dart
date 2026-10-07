@@ -8,6 +8,7 @@ import '../widgets/custom_search_bar.dart';
 import '../widgets/profile_header.dart';
 import '../daftarClub/ClubRepository.dart';
 import '../Models/Club.dart';
+import 'package:uts_mobprog/eventActivity/screens/layar_event.dart';
 import '../widgets/notification_bell.dart';
 import 'search_screen.dart';
 
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static const List<Widget> _pages = <Widget>[
     HomeContentPage(),
     ExploreClubsPage(),
+    LayarEvent(),
     JoinedClubPage(),
     ProfilePage(),
   ];
@@ -42,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
           BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Jelajah'),
+          BottomNavigationBarItem(icon: Icon(Icons.event_note), label: 'Event'),
           BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Klub Saya'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
         ],

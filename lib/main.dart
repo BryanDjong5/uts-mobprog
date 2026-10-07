@@ -4,6 +4,7 @@ import 'screens/login_screen.dart';
 
 import 'package:uts_mobprog/daftarClub/ListClub.dart';
 import 'package:uts_mobprog/daftarClub/AddNewClub.dart';
+import 'package:uts_mobprog/eventActivity/screens/layar_event.dart';
 
 void main() {
   runApp(const Reclub());
@@ -14,10 +15,11 @@ class Reclub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Reclub',
       debugShowCheckedModeBanner: false,
       home: LoginScreen(),
+      //home: LayarEvent(),
     );
   }
 }
