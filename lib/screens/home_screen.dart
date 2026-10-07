@@ -10,6 +10,7 @@ import '../daftarClub/ClubRepository.dart';
 import '../Models/Club.dart';
 import '../widgets/notification_bell.dart';
 import 'search_screen.dart';
+import '../widgets/notification_banner.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,21 +36,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Jelajah'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF2B2D42),
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.white,
-        elevation: 10,
-        type: BottomNavigationBarType.fixed,
-        onTap: _onItemTapped,
+    return NotificationBannerHost(
+      child: Scaffold(
+        body: _pages[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.explore),
+              label: 'Jelajah',
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: const Color(0xFF2B2D42),
+          unselectedItemColor: Colors.grey,
+          backgroundColor: Colors.white,
+          elevation: 10,
+          type: BottomNavigationBarType.fixed,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
@@ -201,7 +207,6 @@ class HomeContentPage extends StatelessWidget {
   }
 }
 
-// 2. Tampilan Halaman Jelajah (Explore)
 class ExploreClubsPage extends StatefulWidget {
   const ExploreClubsPage({super.key});
 
@@ -303,7 +308,6 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
   }
 }
 
-// 3. Tampilan Halaman Profil (Profile)
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
