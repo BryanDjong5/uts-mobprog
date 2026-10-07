@@ -70,17 +70,20 @@ class _ClubDetailPage extends State<ClubDetail> {
                   ),
                 ),
                 // 2. Avatar Ikon (Menimpa Banner)
-                CircleAvatar(
-                  radius: 50, 
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor, 
+                Hero(
+                  tag: widget.title, 
                   child: CircleAvatar(
-                    radius: 45,
-                    backgroundColor: const Color(0xFF2B2D42), 
-                    child: Text(
-                      widget.iconData,
-                      style: const TextStyle(
-                        fontSize: 35,
-                        color: Colors.white,
+                    radius: 50,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    child: CircleAvatar(
+                      radius: 45,
+                      backgroundColor: const Color(0xFF2B2D42),
+                      child: Text(
+                        widget.iconData,
+                        style: const TextStyle(
+                          fontSize: 35,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
