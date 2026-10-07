@@ -20,7 +20,11 @@ class _LayarEventState extends State<LayarEvent> {
       "waktu": "18:00 WIB",
       "lokasi": "Lapangan Futsal",
       "detail": "Main futsal santai",
-      "kuota": "5 Slot"
+      "detailLengkap": "Main futsal bareng orang seru seruan",
+      "kuota": "5 Slot",
+      "penyelenggara": "BEM",
+      "pendaftaran": "1 - 5 Oktober 2026",
+      "syarat": "Datang 15 menit sebelum acara. Wajib membawa sepatu olahraga",
     },
     {
       "judul": "Bulu Tangkis",
@@ -30,7 +34,11 @@ class _LayarEventState extends State<LayarEvent> {
       "waktu": "16:00 WIB", 
       "lokasi": "Jakbar",
       "detail": "Main main aja",
-      "kuota": "2 Slot"
+      "detailLengkap": "Main bulu tangkis bareng orang seru seruan",
+      "kuota": "2 Slot",
+      "penyelenggara": "BEM",
+      "pendaftaran": "1 - 5 Oktober 2026",
+      "syarat": "Datang 15 menit sebelum acara. Wajib membawa raket",
     },
     {
       "judul": "Nyanyi",
@@ -40,7 +48,11 @@ class _LayarEventState extends State<LayarEvent> {
       "waktu": "16:00 WIB", 
       "lokasi": "Jakbar",
       "detail": "Main main aja",
-      "kuota": "2 Slot"
+      "detailLengkap": "Main bulu tangkis bareng orang seru seruan",
+      "kuota": "2 Slot",
+      "penyelenggara": "BEM",
+      "pendaftaran": "1 - 5 Oktober 2026",
+      "syarat": "Datang 15 menit sebelum acara. Wajib membawa sepatu olahraga",
     },
     {
       "judul": "PSUT",
@@ -50,7 +62,11 @@ class _LayarEventState extends State<LayarEvent> {
       "waktu": "09:00 WIB",
       "lokasi": "Panggung",
       "detail": "Lomba menyanyi",
-      "kuota": "10 Slot"
+      "detailLengkap": "Lomba menyanyi bareng untuk mencari relasi",
+      "kuota": "10 Slot",
+      "penyelenggara": "PSUT",
+      "pendaftaran": "1 - 5 Oktober 2026",
+      "syarat": "Datang 15 menit sebelum acara. Wajib membawa sepatu",
     },
     {
       "judul": "Padus",
@@ -60,7 +76,11 @@ class _LayarEventState extends State<LayarEvent> {
       "waktu": "13:00 WIB",
       "lokasi": "Graha",
       "detail": "Lomba paduan suara",
-      "kuota": "100 Slot"
+      "detailLengkap": "Lomba paduan suara bareng orang seru seruan di graha",
+      "kuota": "100 Slot",
+      "penyelenggara": "PSUT",
+      "pendaftaran": "1 - 5 Oktober 2026",
+      "syarat": "Datang 15 menit sebelum acara. Wajib membawa sepatu olahraga",
     },
     {
       "judul": "Futsal",
@@ -70,7 +90,11 @@ class _LayarEventState extends State<LayarEvent> {
       "waktu": "18:00 WIB",
       "lokasi": "Lapangan Futsal",
       "detail": "Main futsal santai",
-      "kuota": "12 Slot"
+      "detailLengkap": "Main futsal bareng orang seru seruan",
+      "kuota": "12 Slot",
+      "penyelenggara": "BEM",
+      "pendaftaran": "1 - 5 Oktober 2026",
+      "syarat": "Datang 15 menit sebelum acara. Wajib membawa sepatu olahraga",
     },
     {
       "judul": "Basket",
@@ -80,7 +104,11 @@ class _LayarEventState extends State<LayarEvent> {
       "waktu": "18:00 WIB",
       "lokasi": "Lapangan Futsal",
       "detail": "Main futsal santai",
-      "kuota": "6 Slot"
+      "detailLengkap": "Main basket bareng orang seru seruan",
+      "kuota": "6 Slot",
+      "penyelenggara": "BEM",
+      "pendaftaran": "1 - 5 Oktober 2026",
+      "syarat": "Datang 15 menit sebelum acara. Wajib membawa sepatu olahraga",
     },
   ];
  
@@ -110,32 +138,6 @@ class _LayarEventState extends State<LayarEvent> {
       appBar: AppBar(
         title: Text("Jadwal & Event", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.blueAccent,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: TextButton.icon(
-              onPressed: () {
-              },
-              icon: const Icon(Icons.bookmark, color: Color(0xFF4285F4), size: 18),
-              label: const Text(
-                "Event Saya",
-                style: TextStyle(
-                  color: Color(0xFF4285F4),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.lightBlueAccent, 
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-              ),
-            ),
-          ),
-        ],
       ),
 
       body: Column(
@@ -199,11 +201,16 @@ class _LayarEventState extends State<LayarEvent> {
                 return Event(
                   judul: event["judul"]!,
                   kategori: event["kategori"]!, 
-                  iconKategori: event["icon"],
+                  iconKategori: event["icon"]!,
                   waktu: event["waktu"]!,
                   lokasi: event["lokasi"]!,
                   detail: event["detail"]!,
+                  detailLengkap: event["detailLengkap"]!,
                   kuota: event["kuota"]!,
+                  penyelenggara: event["penyelenggara"]!,
+                  pendaftaran: event["pendaftaran"]!,
+                  syarat: event["syarat"]!,
+                  tanggal: event["tanggal"]!,
                 );
               },
             ),

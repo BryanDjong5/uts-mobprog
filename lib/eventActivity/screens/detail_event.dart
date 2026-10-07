@@ -3,17 +3,27 @@ import 'package:flutter/material.dart';
 class LayarDetail extends StatelessWidget {
   final String judul;
   final String kategori;
+  final String tanggal;
   final String waktu;
   final String lokasi;
   final String detailLengkap;
+  final String kuota;
+  final String penyelenggara;
+  final String pendaftaran;
+  final String syarat;
 
   const LayarDetail({
     super.key,
     required this.judul,
     required this.kategori,
+    required this.tanggal,
     required this.waktu,
     required this.lokasi,
     required this.detailLengkap,
+    required this.kuota,
+    required this.penyelenggara,
+    required this.pendaftaran,
+    required this.syarat,
   });
 
   @override
@@ -60,12 +70,34 @@ class LayarDetail extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 4),
+            Text(
+              kategori,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+              ),
+            ),
+            Row(
+              children: [
+                const Icon(
+                  Icons.calendar_month, 
+                  color: Colors.grey, size: 20
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  tanggal, style: 
+                  const TextStyle(fontSize: 16)
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
             Row(
               children: [
                 const Icon(
                   Icons.access_time,
                   color: Colors.grey,
+                  size: 20,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -82,6 +114,7 @@ class LayarDetail extends StatelessWidget {
                 const Icon(
                   Icons.location_on,
                   color: Colors.grey,
+                  size: 20,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -109,6 +142,67 @@ class LayarDetail extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16,
                 height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              "Penyelenggara",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              penyelenggara,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              "Pendaftaran",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              pendaftaran,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              "Syarat & Ketentuan",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              syarat,
+              style: const TextStyle(
+                fontSize: 16,
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              "Kuota",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              kuota,
+              style: const TextStyle(
+                fontSize: 16,
               ),
             ),
           ],

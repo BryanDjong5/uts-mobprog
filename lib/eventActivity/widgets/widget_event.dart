@@ -10,7 +10,12 @@ class Event extends StatelessWidget {
   final String waktu;
   final String lokasi;
   final String detail;
+  final String detailLengkap;
   final String kuota;
+  final String penyelenggara;
+  final String pendaftaran;
+  final String syarat;
+  final String tanggal;
 const Event({
     super.key,
     required this.judul,
@@ -19,7 +24,12 @@ const Event({
     required this.waktu,
     required this.lokasi,
     required this.detail,
+    required this.detailLengkap,
     required this.kuota,
+    required this.penyelenggara,
+    required this.pendaftaran,
+    required this.syarat,
+    required this.tanggal,
   });
 
   int _getAngka() {
@@ -55,9 +65,14 @@ const Event({
               builder: (context) => LayarDetail(
                 judul: judul,
                 kategori: kategori,
+                tanggal: tanggal,
                 waktu: waktu,
                 lokasi: lokasi,
-                detailLengkap: detail,
+                detailLengkap: detailLengkap,
+                kuota: kuota,
+                penyelenggara: penyelenggara,
+                pendaftaran: pendaftaran,
+                syarat: syarat,
               ),
             ),
           );
