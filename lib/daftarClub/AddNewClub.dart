@@ -1,8 +1,10 @@
 // daftarClub/AddNewClub.dart
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../Models/Club.dart';
+
+import '../Models/club.dart';
 import '/daftarClub/ClubRepository.dart';
 
 class NambahClub extends StatefulWidget {
@@ -28,9 +30,7 @@ class _NambahClubState extends State<NambahClub> {
           content: const Text('Nama dan deskripsi harus diisi'),
           behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.redAccent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(7),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
         ),
       );
       return;
@@ -41,7 +41,7 @@ class _NambahClubState extends State<NambahClub> {
       deskripsiClub: clubdesc,
       members: 1,
       isJoined: true,
-      fotoPath: foto?.path, 
+      fotoPath: foto?.path,
     );
 
     ClubRepository.instance.addClub(clubBaru);
@@ -125,10 +125,7 @@ class _NambahClubState extends State<NambahClub> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
-          color: theme.colorScheme.primary,
-          width: 2,
-        ),
+        borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
       ),
     );
   }
@@ -182,10 +179,11 @@ class _NambahClubState extends State<NambahClub> {
                           children: [
                             CircleAvatar(
                               radius: 50,
-                              backgroundColor:
-                                  theme.colorScheme.primary.withOpacity(0.12),
-                              backgroundImage:
-                                  foto != null ? FileImage(foto!) : null,
+                              backgroundColor: theme.colorScheme.primary
+                                  .withOpacity(0.12),
+                              backgroundImage: foto != null
+                                  ? FileImage(foto!)
+                                  : null,
                               child: foto == null
                                   ? Icon(
                                       Icons.add_a_photo_outlined,
@@ -252,23 +250,24 @@ class _NambahClubState extends State<NambahClub> {
                   maxLines: 5,
                   maxLength: 200,
                   textCapitalization: TextCapitalization.sentences,
-                  decoration: bagusinTampilan(
-                    theme: theme,
-                    label: 'Deskripsi',
-                    hint: 'Ceritakan tentang club ini...',
-                    icon: Icons.description_outlined,
-                  ).copyWith(
-                    alignLabelWithHint: true,
-                    prefixIcon: const Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 12),
-                          child: Icon(Icons.description_outlined),
+                  decoration:
+                      bagusinTampilan(
+                        theme: theme,
+                        label: 'Deskripsi',
+                        hint: 'Ceritakan tentang club ini...',
+                        icon: Icons.description_outlined,
+                      ).copyWith(
+                        alignLabelWithHint: true,
+                        prefixIcon: const Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 12),
+                              child: Icon(Icons.description_outlined),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
                 ),
 
                 const SizedBox(height: 12),

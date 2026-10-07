@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'login_screen.dart';
-import '/daftarClub/ClubDetail.dart';
+import '../daftarClub/ClubDetail.dart';
 import '../daftarClub/AddNewClub.dart';
 import '../widgets/club_card.dart';
 import '../widgets/custom_search_bar.dart';
 import '../widgets/profile_header.dart';
 import '../daftarClub/ClubRepository.dart';
-import '../Models/Club.dart';
+import '../Models/club.dart';
+
+import 'package:uts_mobprog/eventActivity/screens/layar_event.dart';
+
 import '../widgets/notification_bell.dart';
 import 'search_screen.dart';
 import '../widgets/notification_banner.dart';
@@ -25,6 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   static const List<Widget> _pages = <Widget>[
     HomeContentPage(),
     ExploreClubsPage(),
+    LayarEvent(),
+    JoinedClubPage(),
     ProfilePage(),
   ];
 
@@ -45,6 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.explore),
               label: 'Jelajah',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.event_note),
+              label: 'Event',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.groups),
+              label: 'Klub Saya',
             ),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
           ],
@@ -125,7 +138,7 @@ class HomeContentPage extends StatelessWidget {
           ),
           const NotificationBell(color: Colors.white),
         ],
-      ), // AppBar,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -136,7 +149,7 @@ class HomeContentPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: const Color(0xFF2B2D42),
+                color: Color(0xFF2B2D42),
               ),
             ),
             const SizedBox(height: 10),
@@ -302,6 +315,73 @@ class _ExploreClubsPageState extends State<ExploreClubsPage> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class JoinedClubPage extends StatelessWidget {
+  const JoinedClubPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Klub Saya',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(25),
+        child: ValueListenableBuilder<List<Club>>(
+          valueListenable: ClubRepository.instance.clubs,
+          builder: (context, clubList, _) {
+            final joinedClub = clubList.where((c) => c.isJoined).toList();
+
+            if (joinedClub.isEmpty) {
+              return const Center(
+                child: Text(
+                  'Anda belum bergabung di club mana pun',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              );
+            }
+
+            return ListView.builder(
+              itemCount: joinedClub.length,
+              itemBuilder: (context, index) {
+                final club = joinedClub[index];
+                return ClubCard(
+                  title: club.namaClub,
+                  subtitle: club.deskripsiClub,
+                  iconData: Icons.groups,
+                  fotoPath: club.fotoPath,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ClubDetail(
+                          clubId: club.id,
+                          title: club.namaClub,
+                          subtitle: club.deskripsiClub,
+                          iconData: '👥',
+                          members: club.members,
+                          description: club.deskripsiClub,
+                          fotoPath: club.fotoPath,
+                          isJoined: club.isJoined,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
         ),
       ),
     );

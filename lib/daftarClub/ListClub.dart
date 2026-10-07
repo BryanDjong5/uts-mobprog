@@ -1,7 +1,10 @@
 // daftarClub/ListClub.dart
 import 'package:flutter/material.dart';
-import '../Models/Club.dart';
+
+import '../Models/club.dart';
+
 import 'package:uts_mobprog/daftarClub/AddNewClub.dart';
+
 import 'ClubRepository.dart';
 
 class ListClub extends StatefulWidget {

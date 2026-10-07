@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Models/Club.dart';
+import '../Models/club.dart';
 import '../Models/event_model.dart';
 import '../daftarClub/ClubDetail.dart';
 import '../daftarClub/ClubRepository.dart';
