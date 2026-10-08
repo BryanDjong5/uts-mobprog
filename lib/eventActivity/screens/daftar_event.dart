@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../eventt_repository.dart';
 
 class LayarFormDaftar extends StatefulWidget {
   final String namaKlub;
+  final Map<String, dynamic> event;
 
-  const LayarFormDaftar({super.key, required this.namaKlub});
+  const LayarFormDaftar({super.key, required this.namaKlub, required this.event,});
 
   @override
   State<LayarFormDaftar> createState() => _LayarFormDaftarState();
@@ -136,6 +138,7 @@ class _LayarFormDaftarState extends State<LayarFormDaftar> {
                             ),
                           );
                         } else {
+                          EventRepository.instance.daftar(widget.event);
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

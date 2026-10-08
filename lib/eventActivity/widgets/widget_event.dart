@@ -155,8 +155,24 @@ const Event({
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LayarFormDaftar(namaKlub: judul),
-                      ),
+                        builder: (context) => LayarFormDaftar(
+                          namaKlub: judul,
+                           event: {
+                            "judul": judul,
+                            "kategori": kategori,
+                            "icon": iconKategori,
+                            "tanggal": tanggal,
+                            "waktu": waktu,
+                            "lokasi": lokasi,
+                            "detail": detail,
+                            "detail_lengkap": detailLengkap,
+                            "kuota": kuota,
+                            "penyelenggara": penyelenggara,
+                            "pendaftaran": pendaftaran,
+                            "syarat": syarat,
+                          },
+                        ),
+                        ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -179,5 +195,6 @@ const Event({
       ),
     )
   );
-  }}
+  }
+}
 

@@ -34,6 +34,7 @@ class _ClubDetailPage extends State<ClubDetail> {
   late bool isJoined;
   late int members;
   File? foto;
+
   final ImagePicker picker = ImagePicker();
 
   @override
@@ -45,9 +46,13 @@ class _ClubDetailPage extends State<ClubDetail> {
     members = saved?.members ?? widget.members;
 
     final fotoPath = saved?.fotoPath ?? widget.fotoPath;
+
     if (fotoPath != null) {
       final file = File(fotoPath);
-      if (file.existsSync()) foto = file;
+
+      if (file.existsSync()) {
+        foto = file;
+      }
     }
   }
 
@@ -59,8 +64,9 @@ class _ClubDetailPage extends State<ClubDetail> {
 
     ClubRepository.instance.setJoin(
       nama: widget.title,
-      deskripsi:
-          widget.description.isEmpty ? widget.subtitle : widget.description,
+      deskripsi: widget.description.isEmpty
+          ? widget.subtitle
+          : widget.description,
       members: members,
       joined: isJoined,
       fotoPath: foto?.path,
@@ -77,9 +83,52 @@ class _ClubDetailPage extends State<ClubDetail> {
     );
   }
 
+  void hapusClub() {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Hapus Club'),
+          content: Text(
+            'Apakah Anda yakin ingin menghapus "${widget.title}"?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+              },
+              child: const Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                ClubRepository.instance.hapusClub(widget.title);
+
+                Navigator.pop(dialogContext);
+                Navigator.pop(context);
+              },
+              child: const Text(
+                'Hapus',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _simpanFoto(File? file) {
-    setState(() => foto = file);
-    ClubRepository.instance.setFoto(widget.title, file?.path);
+    setState(() {
+      foto = file;
+    });
+
+    ClubRepository.instance.setFoto(
+      widget.title,
+      file?.path,
+    );
   }
 
   Future<void> _pilihFoto(ImageSource source) async {
@@ -88,13 +137,17 @@ class _ClubDetailPage extends State<ClubDetail> {
       maxWidth: 800,
       imageQuality: 80,
     );
+
     if (picked == null) return;
 
     _simpanFoto(File(picked.path));
 
     if (!mounted) return;
+
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Foto club berhasil diganti')),
+      const SnackBar(
+        content: Text('Foto club berhasil diganti'),
+      ),
     );
   }
 
@@ -102,13 +155,17 @@ class _ClubDetailPage extends State<ClubDetail> {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
       ),
       builder: (ctx) => SafeArea(
         child: Wrap(
           children: [
             ListTile(
-              leading: const Icon(Icons.photo_library_outlined),
+              leading: const Icon(
+                Icons.photo_library_outlined,
+              ),
               title: const Text('Pilih dari Galeri'),
               onTap: () {
                 Navigator.pop(ctx);
@@ -116,7 +173,9 @@ class _ClubDetailPage extends State<ClubDetail> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.camera_alt_outlined),
+              leading: const Icon(
+                Icons.camera_alt_outlined,
+              ),
               title: const Text('Ambil dari Kamera'),
               onTap: () {
                 Navigator.pop(ctx);
@@ -125,9 +184,16 @@ class _ClubDetailPage extends State<ClubDetail> {
             ),
             if (foto != null)
               ListTile(
-                leading: const Icon(Icons.delete_outline, color: Colors.red),
-                title: const Text('Hapus Foto',
-                    style: TextStyle(color: Colors.red)),
+                leading: const Icon(
+                  Icons.delete_outline,
+                  color: Colors.red,
+                ),
+                title: const Text(
+                  'Hapus Foto',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
                 onTap: () {
                   Navigator.pop(ctx);
                   _simpanFoto(null);
@@ -143,30 +209,40 @@ class _ClubDetailPage extends State<ClubDetail> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).copyWith(
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color.fromARGB(255, 0, 65, 150),
+        seedColor: const Color.fromARGB(255,0,65,150,
+        ),
       ),
     );
 
     return Theme(
       data: theme,
       child: Scaffold(
-        appBar: AppBar(title: Text(widget.title)),
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // FOTO CLUB
               Center(
                 child: Stack(
                   children: [
                     CircleAvatar(
                       radius: 55,
-                      backgroundImage: foto != null ? FileImage(foto!) : null,
+                      backgroundImage:
+                          foto != null ? FileImage(foto!) : null,
                       child: foto == null
-                          ? Text(widget.iconData,
-                              style: const TextStyle(fontSize: 40))
+                          ? Text(
+                              widget.iconData,
+                              style: const TextStyle(
+                                fontSize: 40,
+                              ),
+                            )
                           : null,
                     ),
+
                     if (isJoined)
                       Positioned(
                         bottom: 0,
@@ -194,26 +270,39 @@ class _ClubDetailPage extends State<ClubDetail> {
                   ],
                 ),
               ),
+
               const SizedBox(height: 20),
+
               Center(
                 child: Text(
                   widget.title,
                   style: const TextStyle(
-                      fontSize: 26, fontWeight: FontWeight.bold),
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+
               const SizedBox(height: 8),
+
               Center(
                 child: Text(
                   widget.subtitle,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
+
               const SizedBox(height: 25),
+
               Card(
                 elevation: 0,
-                margin: const EdgeInsets.symmetric(vertical: 6),
+                margin: const EdgeInsets.symmetric(
+                  vertical: 6,
+                ),
                 color: theme.colorScheme.primaryContainer.withOpacity(0.35),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -223,69 +312,106 @@ class _ClubDetailPage extends State<ClubDetail> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 14),
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   child: Row(
                     children: [
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.primary.withOpacity(0.12),
+                          color: theme.colorScheme.primary
+                              .withOpacity(0.12),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.groups_rounded,
-                            color: theme.colorScheme.primary, size: 28),
+                        child: Icon(
+                          Icons.groups_rounded,
+                          color: theme.colorScheme.primary,
+                          size: 28,
+                        ),
                       ),
+
                       const SizedBox(width: 16),
+
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Jumlah Member',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
+                              style: theme.textTheme.bodyMedium
+                                  ?.copyWith(
+                                color: theme.colorScheme
+                                    .onSurfaceVariant,
                               ),
                             ),
+
                             const SizedBox(height: 2),
+
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              textBaseline: TextBaseline.alphabetic,
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.baseline,
+                              textBaseline:
+                                  TextBaseline.alphabetic,
                               children: [
                                 AnimatedSwitcher(
-                                  duration: const Duration(milliseconds: 300),
-                                  transitionBuilder: (child, animation) =>
-                                      ScaleTransition(
-                                          scale: animation, child: child),
+                                  duration: const Duration(
+                                    milliseconds: 300,
+                                  ),
+                                  transitionBuilder:
+                                      (child, animation) =>
+                                          ScaleTransition(
+                                    scale: animation,
+                                    child: child,
+                                  ),
                                   child: Text(
                                     '$members',
-                                    key: ValueKey<int>(members),
-                                    style: theme.textTheme.headlineSmall
+                                    key: ValueKey<int>(
+                                      members,
+                                    ),
+                                    style: theme.textTheme
+                                        .headlineSmall
                                         ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: theme.colorScheme.primary,
+                                      fontWeight:
+                                          FontWeight.bold,
+                                      color: theme.colorScheme
+                                          .primary,
                                     ),
                                   ),
                                 ),
+
                                 const SizedBox(width: 6),
-                                Text('anggota',
-                                    style: theme.textTheme.bodyMedium),
+
+                                Text(
+                                  'anggota',
+                                  style:
+                                      theme.textTheme.bodyMedium,
+                                ),
                               ],
                             ),
                           ],
                         ),
                       ),
+
                       if (isJoined)
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 4),
+                          padding:
+                              const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: theme.colorScheme.primary,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius:
+                                BorderRadius.circular(20),
                           ),
                           child: Text(
                             'Bergabung',
-                            style: theme.textTheme.labelSmall?.copyWith(
-                              color: theme.colorScheme.onPrimary,
+                            style: theme.textTheme.labelSmall
+                                ?.copyWith(
+                              color:
+                                  theme.colorScheme.onPrimary,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -294,19 +420,30 @@ class _ClubDetailPage extends State<ClubDetail> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 12),
-              const Text(
-                'Tentang Club',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+
+              const Text('Tentang Club',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+
               const SizedBox(height: 8),
+
               Text(
                 widget.description.isEmpty
                     ? widget.subtitle
                     : widget.description,
-                style: const TextStyle(fontSize: 16, height: 1.5),
+                style: const TextStyle(
+                  fontSize: 16,
+                  height: 1.5,
+                ),
               ),
+
               const SizedBox(height: 25),
+
               if (isJoined) ...[
                 Container(
                   width: double.infinity,
@@ -317,33 +454,74 @@ class _ClubDetailPage extends State<ClubDetail> {
                   ),
                   child: const Row(
                     children: [
-                      Icon(Icons.check_circle, color: Colors.green),
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                      ),
                       SizedBox(width: 10),
                       Text(
                         'Anda sudah bergabung dengan club ini',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
                 ),
+
                 const SizedBox(height: 12),
+
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton.icon(
                     onPressed: _tampilkanPilihanFoto,
-                    icon: const Icon(Icons.photo_camera_outlined),
-                    label: const Text('Ganti Foto Club'),
+                    icon: const Icon(
+                      Icons.photo_camera_outlined,
+                    ),
+                    label: const Text(
+                      'Ganti Foto Club',
+                    ),
                   ),
                 ),
               ],
+
               const SizedBox(height: 20),
+
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton.icon(
                   onPressed: _toggleIsJoined,
-                  icon: Icon(isJoined ? Icons.exit_to_app : Icons.group_add),
-                  label: Text(isJoined ? 'Leave Club' : 'Join Club'),
+                  icon: Icon(
+                    isJoined
+                        ? Icons.exit_to_app
+                        : Icons.group_add,
+                  ),
+                  label: Text(
+                    isJoined
+                        ? 'Leave Club'
+                        : 'Join Club',
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: OutlinedButton.icon(
+                  onPressed: hapusClub,
+                  icon: const Icon(
+                    Icons.delete_outline,
+                    color: Colors.red,
+                  ),
+                  label: const Text(
+                    'Hapus Club',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
                 ),
               ),
             ],
