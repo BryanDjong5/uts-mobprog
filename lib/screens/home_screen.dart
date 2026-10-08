@@ -386,7 +386,6 @@ class JoinedClubPage extends StatelessWidget {
               itemCount: joinedClub.length,
               itemBuilder: (context, index) {
                 final club = joinedClub[index];
-
                 return ClubCard(
                   title: club.namaClub,
                   subtitle: club.deskripsiClub,
@@ -418,7 +417,6 @@ class JoinedClubPage extends StatelessWidget {
     );
   }
 }
-
 
 // 3. Tampilan Halaman Profil (Profile)
 class ProfilePage extends StatelessWidget {

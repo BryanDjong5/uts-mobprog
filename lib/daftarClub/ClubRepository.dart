@@ -190,11 +190,10 @@ class ClubRepository {
     ];
   }
 
+  // ---- Versi berbasis id (punya temanmu), dipertahankan ----
+
   void _update(String id, Club Function(Club) ubah) {
-    clubs.value = [
-      for (final c in clubs.value)
-        c.id == id ? ubah(c) : c,
-    ];
+    clubs.value = [for (final c in clubs.value) c.id == id ? ubah(c) : c];
   }
 
   void updateFoto(String id, String? path) {
@@ -241,5 +240,4 @@ class ClubRepository {
     }
   }
 }
-
 

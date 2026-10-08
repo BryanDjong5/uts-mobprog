@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/widget_kalender.dart';
 import '../widgets/widget_event.dart';
+import 'layar_event_saya.dart'; 
 
 class LayarEvent extends StatefulWidget {
   const LayarEvent({super.key});
@@ -138,6 +139,36 @@ class _LayarEventState extends State<LayarEvent> {
       appBar: AppBar(
         title: Text("Jadwal & Event", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.blueAccent,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12, top: 10, bottom: 10),
+            child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LayarEventSaya()),
+                );
+              },
+              icon: const Icon(Icons.bookmark, color: Color(0xFF4285F4), size: 18),
+              label: const Text(
+                "Event Saya",
+                style: TextStyle(
+                  color: Color(0xFF4285F4),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20), // bentuk pill
+                  side: const BorderSide(color: Color(0xFFBBD3FA)), // border tipis biru muda
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
 
       body: Column(

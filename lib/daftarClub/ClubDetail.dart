@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'ClubRepository.dart';
 
 class ClubDetail extends StatefulWidget {
-  final String? clubId;
+  final String? clubId; 
   final String title;
   final String subtitle;
   final String iconData;
@@ -40,7 +40,6 @@ class _ClubDetailPage extends State<ClubDetail> {
   @override
   void initState() {
     super.initState();
-
     final saved = ClubRepository.instance.joinedByName(widget.title);
 
     isJoined = saved != null || widget.isJoined;
